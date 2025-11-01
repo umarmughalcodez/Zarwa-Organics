@@ -1,0 +1,85 @@
+"use client";
+import { motion } from "framer-motion";
+import { FaLeaf, FaHeart, FaTint, FaSpa } from "react-icons/fa";
+
+const highlights = [
+  {
+    icon: <FaLeaf size={32} />,
+    title: "100% Organic Ingredients",
+    desc: "Each drop is crafted from nature’s purest oils — free from sulfates, parabens, and toxins.",
+  },
+  {
+    icon: <FaHeart size={32} />,
+    title: "Promotes Hair Growth",
+    desc: "Revitalizes scalp health and strengthens roots for visibly thicker, longer hair.",
+  },
+  {
+    icon: <FaTint size={32} />,
+    title: "Deep Nourishment",
+    desc: "Infuses strands with essential nutrients to restore softness, shine, and hydration.",
+  },
+  {
+    icon: <FaSpa size={32} />,
+    title: "Handcrafted with Care",
+    desc: "Made in small batches to ensure quality, freshness, and maximum potency.",
+  },
+];
+
+export default function ProductHighlights() {
+  return (
+    <section className="relative bg-gradient-to-b from-white via-[#fdf8f3] to-white py-24 overflow-hidden">
+      {/* subtle golden glow background */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(193,162,74,0.1),transparent_70%)]" />
+
+      <div className="relative z-10 container mx-auto px-6 text-center">
+        {/* heading */}
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="text-4xl md:text-5xl font-bold text-[#C1A24A]"
+        >
+          Product Highlights
+        </motion.h2>
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.1 }}
+          className="mt-4 text-gray-700 text-lg max-w-2xl mx-auto"
+        >
+          Discover why Zarwa Organics Hair Growth Oil stands apart — a blend of
+          purity, power, and care for your natural beauty.
+        </motion.p>
+
+        {/* highlights grid */}
+        <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+          {highlights.map((item, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: index * 0.1 }}
+              className="group bg-white shadow-lg rounded-2xl p-8 border border-[#C1A24A]/10 hover:border-[#C1A24A]/40 hover:shadow-2xl transition"
+            >
+              <div className="flex flex-col items-center text-center space-y-4">
+                <div className="text-[#C1A24A] group-hover:scale-110 transition-transform duration-300">
+                  {item.icon}
+                </div>
+                <h3 className="text-xl font-semibold text-gray-800">
+                  {item.title}
+                </h3>
+                <p className="text-gray-600 text-base">{item.desc}</p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+
+      {/* decorative bottom border */}
+      <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#C1A24A]/40 to-transparent" />
+    </section>
+  );
+}
