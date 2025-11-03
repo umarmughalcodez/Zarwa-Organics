@@ -27,9 +27,13 @@ const highlights = [
 
 export default function ProductHighlights() {
   return (
-    <section className="relative bg-[#FAF8F2] py-24 overflow-hidden text-[#2E2B27]">
-      {/* Subtle green background glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(121,178,123,0.12),transparent_70%)]" />
+    <section className="relative bg-[#4F6F52] py-24 overflow-hidden text-[#FAF8F3]">
+      {/* Soft organic glow */}
+      <motion.div
+        className="absolute inset-0 bg-gradient-to-tr from-[#FAF8F3]/10 via-transparent to-transparent blur-3xl"
+        animate={{ opacity: [0.5, 0.9, 0.5] }}
+        transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }}
+      />
 
       <div className="relative z-10 container mx-auto px-6 text-center">
         {/* Heading */}
@@ -38,7 +42,7 @@ export default function ProductHighlights() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-4xl md:text-5xl font-semibold text-[#79B27B]"
+          className="text-4xl md:text-5xl font-semibold text-[#FAF8F3]"
         >
           Product Highlights
         </motion.h2>
@@ -48,7 +52,7 @@ export default function ProductHighlights() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.1 }}
-          className="mt-4 text-lg text-[#5A574F] max-w-2xl mx-auto leading-relaxed"
+          className="mt-4 text-lg text-[#FAF8F3]/80 max-w-2xl mx-auto leading-relaxed"
         >
           Discover what makes Zarwa Organics Hair Growth Oil unique — where
           ancient South-Asian herbal wisdom meets modern purity and care.
@@ -63,25 +67,42 @@ export default function ProductHighlights() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: index * 0.1 }}
-              className="group bg-[#FAF8F2] shadow-md rounded-2xl p-8 border border-[#EAE6DC] hover:border-[#79B27B]/60 hover:shadow-xl transition-all duration-300"
+              className="group bg-[#6B8E6E]/60 backdrop-blur-sm border border-[#FAF8F3]/20 rounded-2xl p-8 hover:border-[#FAF8F3]/60 hover:scale-[1.03] hover:shadow-lg transition-all duration-300"
             >
               <div className="flex flex-col items-center text-center space-y-4">
-                <div className="text-[#79B27B] group-hover:scale-110 transition-transform duration-300">
+                <div className="text-[#FAF8F3] group-hover:scale-110 transition-transform duration-300">
                   {item.icon}
                 </div>
-                <h3 className="text-xl font-semibold text-[#2E2B27]">
+                <h3 className="text-xl font-semibold text-[#FAF8F3]">
                   {item.title}
                 </h3>
-                <p className="text-[#5A574F] text-base leading-relaxed">
+                <p className="text-[#FAF8F3]/70 text-base leading-relaxed">
                   {item.desc}
                 </p>
               </div>
             </motion.div>
           ))}
         </div>
+
+        {/* CTA Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.5 }}
+          className="mt-20"
+        >
+          <a
+            href="#shop"
+            className="inline-block bg-[#FAF8F3] text-[#4F6F52] font-semibold rounded-full px-10 py-4 text-lg shadow-md hover:shadow-lg hover:scale-[1.03] transition-transform duration-300"
+          >
+            Experience the Difference
+          </a>
+        </motion.div>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#79B27B]/40 to-transparent" />
+      {/* Decorative line */}
+      <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FAF8F3]/30 to-transparent" />
     </section>
   );
 }
