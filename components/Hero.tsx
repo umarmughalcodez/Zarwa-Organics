@@ -1,95 +1,104 @@
 "use client";
-import Image from "next/image";
-import { motion } from "framer-motion";
 
-export default function Hero() {
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+
+const slides = [
+  {
+    image: "/images/edited.png",
+    title: "Reconnect with Nature’s Rituals",
+    subtitle:
+      "Zarwa Organics revives the timeless South-Asian art of herbal self-care — pure, botanical, and deeply nourishing for skin and soul.",
+  },
+  {
+    image: "/images/hero-img.png",
+    title: "Pure Botanicals. Honest Beauty.",
+    subtitle:
+      "Crafted from nature’s most potent herbs and oils, our products celebrate simplicity — free from toxins, full of goodness.",
+  },
+  {
+    image: "/images/hero-image.png",
+    title: "Ancient Wisdom, Modern Care.",
+    subtitle:
+      "Infused with ancestral ingredients like neem, aloe, and sandalwood — reimagined for today’s natural skincare routine.",
+  },
+  {
+    image: "/images/img3.png",
+    title: "Elevate Your Everyday Ritual.",
+    subtitle:
+      "Pamper your skin with Zarwa’s organic blends — a sensory journey towards calm, balance, and timeless glow.",
+  },
+];
+
+export default function HeroImages() {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex((prev) => (prev + 1) % slides.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-[#FFF9F3] via-white to-[#FFF9F3]">
-      {/* top-right gold mist */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(193,162,74,0.18),transparent_70%)]" />
-      {/* bottom-left soft cream tint */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(255,248,240,0.8),transparent_60%)]" />
+    <section className="relative w-full min-h-screen bg-[#f7f4ee] overflow-hidden flex flex-col mt-24">
+      {/* === Image Slideshow === */}
+      <div className="relative w-full h-[60vh] sm:h-screen overflow-hidden">
+        {slides.map((slide, i) => (
+          <motion.img
+            key={slide.image}
+            src={slide.image}
+            alt={slide.title}
+            className="absolute inset-0 w-full h-full object-cover"
+            initial={false}
+            animate={{
+              opacity: i === index ? 1 : 0,
+              scale: i === index ? 1 : 1.05,
+            }}
+            transition={{
+              duration: 1.2,
+              ease: "easeInOut",
+            }}
+            style={{ willChange: "opacity, transform" }}
+          />
+        ))}
 
-      <div className="relative z-10 container mx-auto px-6 py-20 flex flex-col-reverse md:flex-row items-center justify-between">
-        {/* LEFT TEXT SECTION */}
-        <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9 }}
-          className="max-w-lg text-center md:text-left"
-        >
-          <h1 className="text-5xl md:text-6xl font-playfair font-semibold text-[#C1A24A] leading-tight">
-            Zarwa Organics
-          </h1>
-
-          <p className="mt-4 text-[#3A3A3A] text-lg md:text-xl font-poppins">
-            Indulge in the essence of nature.{" "}
-            <span className="text-[#B18B2E] font-medium">
-              Nourish, strengthen, and grow
-            </span>{" "}
-            with our 100% organic Hair Growth Oil — where purity meets luxury.
-          </p>
-
-          <div className="mt-8 flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-3 sm:space-y-0">
-            <motion.button
-              whileHover={{ scale: 1.06 }}
-              whileTap={{ scale: 0.97 }}
-              className="bg-gradient-to-r from-[#C6A664] to-[#B18B2E] text-white rounded-full px-10 py-3 text-lg font-poppins font-medium shadow-[0_4px_20px_rgba(193,162,74,0.4)] hover:shadow-[0_4px_25px_rgba(177,139,46,0.55)] transition-all duration-300"
-            >
-              Shop Now
-            </motion.button>
-            <a
-              href="#about"
-              className="text-[#B18B2E] font-medium hover:underline hover:opacity-90 transition"
-            >
-              Learn More →
-            </a>
-          </div>
-
-          {/* PAYMENT OPTIONS */}
-          <div className="mt-8 flex items-center space-x-4 justify-center md:justify-start">
-            <span className="text-gray-600 text-sm font-medium">
-              Payment Options:
-            </span>
-            <div className="flex space-x-3">
-              {["JazzCash", "Easypaisa", "Cash on Delivery"].map((opt) => (
-                <span
-                  key={opt}
-                  className="bg-[#FFF9F3] border border-[#C1A24A]/40 rounded-full px-3 py-1 text-xs text-[#C1A24A] font-semibold shadow-sm"
-                >
-                  {opt}
-                </span>
-              ))}
-            </div>
-          </div>
-        </motion.div>
-
-        {/* RIGHT IMAGE SECTION */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.93 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.1 }}
-          className="relative mb-12 md:mb-0 flex justify-center"
-        >
-          <div className="relative w-[300px] md:w-[420px] h-[420px] md:h-[520px]">
-            {/* soft glowing aura */}
-            <div className="absolute -inset-12 bg-[radial-gradient(circle,rgba(193,162,74,0.2),transparent_70%)] blur-3xl rounded-full" />
-            {/* product image */}
-            <Image
-              src="/images/bottle.png"
-              alt="Zarwa Organics Hair Oil"
-              fill
-              priority
-              className="object-contain drop-shadow-[0_15px_30px_rgba(193,162,74,0.35)] hover:scale-105 transition-transform duration-700"
-            />
-            {/* glossy reflection line */}
-            <div className="absolute inset-y-0 left-1/2 w-[1px] bg-gradient-to-b from-transparent via-[#C1A24A]/50 to-transparent opacity-60" />
-          </div>
-        </motion.div>
+        {/* === Dark overlay only on large screens === */}
+        <div className="hidden lg:block absolute inset-0 bg-gradient-to-b from-black/20 via-black/30 to-black/60 pointer-events-none" />
       </div>
 
-      {/* subtle gold shimmer border */}
-      <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#C1A24A]/50 to-transparent" />
+      {/* === Text Content === */}
+      <div className="relative z-20 flex flex-col items-center text-center px-6 py-3 sm:py-0 sm:absolute sm:inset-0 sm:items-start sm:justify-center sm:text-left sm:px-16 xl:mt-24 mt-4">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={slides[index].title}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="max-w-3xl"
+          >
+            {/* ✅ Green text on mobile, white on large screens */}
+            <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold leading-tight text-[#79B27B] lg:text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.3)] transition-colors duration-300">
+              {slides[index].title}
+            </h1>
+
+            {/* ✅ Subheadline adapts too */}
+            <p className="mt-4 text-base sm:text-lg text-[#3e483f]/90 lg:text-[#f1f1f1]/90 max-w-xl mx-auto sm:mx-0 transition-colors duration-300">
+              {slides[index].subtitle}
+            </p>
+
+            <div className="mt-8 flex flex-wrap justify-center sm:justify-start gap-4">
+              <a
+                href="#shop"
+                className="px-8 py-3 rounded-full bg-gradient-to-br from-[#9fc96b] to-[#86b95a] text-white text-sm font-medium shadow-md hover:shadow-lg hover:scale-[1.03] transition-transform"
+              >
+                Shop Now
+              </a>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </div>
     </section>
   );
 }

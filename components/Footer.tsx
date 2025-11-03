@@ -4,9 +4,9 @@ import { FaInstagram, FaTiktok, FaWhatsapp } from "react-icons/fa";
 
 export default function Footer() {
   return (
-    <footer className="relative bg-white border-t border-[#C1A24A]/30 pt-16 pb-8 overflow-hidden">
+    <footer className="relative bg-white border-t border-[#2cbb1f]/30 pt-16 pb-8 overflow-hidden">
       {/* Decorative golden glow */}
-      <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-96 h-96 bg-[#C1A24A]/10 blur-3xl rounded-full -z-10" />
+      <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-96 h-96 bg-[#2cbb1f]/10 blur-3xl rounded-full -z-10" />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -17,25 +17,25 @@ export default function Footer() {
       >
         {/* Column 1 - About */}
         <div>
-          <h3 className="text-xl font-bold text-[#C1A24A] mb-3">
+          <h3 className="text-xl font-bold text-[#2cbb1f] mb-3">
             Zarwa Organics
           </h3>
           <p className="text-gray-700 leading-relaxed">
-            Nourish naturally, shine beautifully.  
-            Premium organic care designed to bring out your hair’s true radiance.
+            Nourish naturally, shine beautifully. Premium organic care designed
+            to bring out your hair’s true radiance.
           </p>
         </div>
 
         {/* Column 2 - Quick Links */}
         <div>
-          <h4 className="text-lg font-semibold text-[#C1A24A] mb-3">
+          <h4 className="text-lg font-semibold text-[#2cbb1f] mb-3">
             Quick Links
           </h4>
           <ul className="space-y-2">
             <li>
               <a
                 href="#hero"
-                className="text-gray-700 hover:text-[#C1A24A] transition"
+                className="text-gray-700 hover:text-[#2cbb1f] transition"
               >
                 Home
               </a>
@@ -43,7 +43,7 @@ export default function Footer() {
             <li>
               <a
                 href="#about"
-                className="text-gray-700 hover:text-[#C1A24A] transition"
+                className="text-gray-700 hover:text-[#2cbb1f] transition"
               >
                 About
               </a>
@@ -51,7 +51,7 @@ export default function Footer() {
             <li>
               <a
                 href="#highlights"
-                className="text-gray-700 hover:text-[#C1A24A] transition"
+                className="text-gray-700 hover:text-[#2cbb1f] transition"
               >
                 Product Highlights
               </a>
@@ -59,7 +59,7 @@ export default function Footer() {
             <li>
               <a
                 href="#shop"
-                className="text-gray-700 hover:text-[#C1A24A] transition"
+                className="text-gray-700 hover:text-[#2cbb1f] transition"
               >
                 Shop
               </a>
@@ -69,7 +69,7 @@ export default function Footer() {
 
         {/* Column 3 - Contact & Socials */}
         <div>
-          <h4 className="text-lg font-semibold text-[#C1A24A] mb-3">
+          <h4 className="text-lg font-semibold text-[#2cbb1f] mb-3">
             Contact Us
           </h4>
           <p className="text-gray-700">Email: hello@zarwaorganics.com</p>
@@ -79,19 +79,19 @@ export default function Footer() {
           <div className="flex justify-center md:justify-start space-x-5 mt-4">
             <a
               href="#"
-              className="text-[#C1A24A] hover:scale-110 transition-transform"
+              className="text-[#2cbb1f] hover:scale-110 transition-transform"
             >
               <FaInstagram size={22} />
             </a>
             <a
               href="#"
-              className="text-[#C1A24A] hover:scale-110 transition-transform"
+              className="text-[#2cbb1f] hover:scale-110 transition-transform"
             >
               <FaTiktok size={22} />
             </a>
             <a
               href="#"
-              className="text-[#C1A24A] hover:scale-110 transition-transform"
+              className="text-[#2cbb1f] hover:scale-110 transition-transform"
             >
               <FaWhatsapp size={22} />
             </a>
@@ -100,18 +100,20 @@ export default function Footer() {
       </motion.div>
 
       {/* Divider line */}
-      <div className="mt-12 mb-6 h-px bg-gradient-to-r from-transparent via-[#C1A24A]/40 to-transparent" />
+      <div className="mt-12 mb-6 h-px bg-gradient-to-r from-transparent via-[#2cbb1f]/40 to-transparent" />
 
       {/* Copyright */}
       <div className="text-center text-gray-600 text-sm">
-        © 2025 <span className="text-[#C1A24A] font-semibold">Zarwa Organics</span>. All rights reserved.
+        © 2025{" "}
+        <span className="text-[#2cbb1f] font-semibold">Zarwa Organics</span>.
+        All rights reserved.
       </div>
 
       {/* Scroll to top button */}
       <motion.a
         href="#hero"
         whileHover={{ scale: 1.1 }}
-        className="absolute right-6 bottom-6 bg-[#C1A24A] text-white p-3 rounded-full shadow-lg hover:bg-[#b5933f] transition"
+        className="absolute right-6 bottom-6 bg-[#2cbb1f] text-white p-3 rounded-full shadow-lg hover:bg-[#b5933f] transition"
       >
         ↑
       </motion.a>

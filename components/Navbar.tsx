@@ -27,16 +27,14 @@ export default function Navbar() {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6 }}
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-white/90 backdrop-blur-md shadow-md"
-          : "bg-transparent"
+        scrolled ? "bg-white/90 backdrop-blur-md shadow-md" : "bg-transparent"
       }`}
     >
       <div className="container mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
         <Link
           href="#hero"
-          className="text-2xl font-bold text-[#C1A24A] tracking-wide"
+          className="text-2xl font-bold text-[#2cbb1f] tracking-wide"
         >
           Zarwa Organics
         </Link>
@@ -47,19 +45,19 @@ export default function Navbar() {
             <a
               key={link.name}
               href={link.href}
-              className="text-gray-700 hover:text-[#C1A24A] font-medium transition"
+              className="text-gray-700 hover:text-[#2cbb1f] font-medium transition"
             >
               {link.name}
             </a>
           ))}
-          <button className="bg-[#C1A24A] text-white rounded-full px-5 py-2 text-sm font-medium hover:bg-[#b5933f] transition">
+          <button className="bg-[#2cbb1f] text-white rounded-full px-5 py-2 text-sm font-medium hover:bg-[#b5933f] transition">
             Shop Now
           </button>
         </div>
 
         {/* Mobile Menu Button */}
         <button
-          className="md:hidden text-[#C1A24A] text-2xl"
+          className="md:hidden text-[#2cbb1f] text-2xl"
           onClick={() => setIsOpen(!isOpen)}
         >
           {isOpen ? <FiX /> : <FiMenu />}
@@ -80,13 +78,13 @@ export default function Navbar() {
                 <a
                   key={link.name}
                   href={link.href}
-                  className="text-gray-700 text-lg hover:text-[#C1A24A] transition"
+                  className="text-gray-700 text-lg hover:text-[#2cbb1f] transition"
                   onClick={() => setIsOpen(false)}
                 >
                   {link.name}
                 </a>
               ))}
-              <button className="bg-[#C1A24A] text-white rounded-full px-6 py-2 font-medium hover:bg-[#b5933f] transition">
+              <button className="bg-[#2cbb1f] text-white rounded-full px-6 py-2 font-medium hover:bg-[#b5933f] transition">
                 Shop Now
               </button>
             </div>

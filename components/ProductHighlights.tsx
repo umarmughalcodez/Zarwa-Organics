@@ -27,33 +27,34 @@ const highlights = [
 
 export default function ProductHighlights() {
   return (
-    <section className="relative bg-gradient-to-b from-white via-[#fdf8f3] to-white py-24 overflow-hidden">
-      {/* subtle golden glow background */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(193,162,74,0.1),transparent_70%)]" />
+    <section className="relative bg-[#FAF8F2] py-24 overflow-hidden text-[#2E2B27]">
+      {/* Subtle green background glow */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(121,178,123,0.12),transparent_70%)]" />
 
       <div className="relative z-10 container mx-auto px-6 text-center">
-        {/* heading */}
+        {/* Heading */}
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-4xl md:text-5xl font-bold text-[#C1A24A]"
+          className="text-4xl md:text-5xl font-semibold text-[#79B27B]"
         >
           Product Highlights
         </motion.h2>
+
         <motion.p
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.1 }}
-          className="mt-4 text-gray-700 text-lg max-w-2xl mx-auto"
+          className="mt-4 text-lg text-[#5A574F] max-w-2xl mx-auto leading-relaxed"
         >
-          Discover why Zarwa Organics Hair Growth Oil stands apart — a blend of
-          purity, power, and care for your natural beauty.
+          Discover what makes Zarwa Organics Hair Growth Oil unique — where
+          ancient South-Asian herbal wisdom meets modern purity and care.
         </motion.p>
 
-        {/* highlights grid */}
+        {/* Highlights Grid */}
         <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
           {highlights.map((item, index) => (
             <motion.div
@@ -62,24 +63,25 @@ export default function ProductHighlights() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: index * 0.1 }}
-              className="group bg-white shadow-lg rounded-2xl p-8 border border-[#C1A24A]/10 hover:border-[#C1A24A]/40 hover:shadow-2xl transition"
+              className="group bg-[#FAF8F2] shadow-md rounded-2xl p-8 border border-[#EAE6DC] hover:border-[#79B27B]/60 hover:shadow-xl transition-all duration-300"
             >
               <div className="flex flex-col items-center text-center space-y-4">
-                <div className="text-[#C1A24A] group-hover:scale-110 transition-transform duration-300">
+                <div className="text-[#79B27B] group-hover:scale-110 transition-transform duration-300">
                   {item.icon}
                 </div>
-                <h3 className="text-xl font-semibold text-gray-800">
+                <h3 className="text-xl font-semibold text-[#2E2B27]">
                   {item.title}
                 </h3>
-                <p className="text-gray-600 text-base">{item.desc}</p>
+                <p className="text-[#5A574F] text-base leading-relaxed">
+                  {item.desc}
+                </p>
               </div>
             </motion.div>
           ))}
         </div>
       </div>
 
-      {/* decorative bottom border */}
-      <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#C1A24A]/40 to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#79B27B]/40 to-transparent" />
     </section>
   );
 }
