@@ -127,13 +127,13 @@ const Transformation = () => {
             itemOne={
               <ReactCompareSliderImage
                 alt="Before Hair Oil Treatment"
-                src="https://images.unsplash.com/photo-1619946794135-5bc917a27793?auto=format&fit=crop&w=800&q=80"
+                src="/images/after.webp"
               />
             }
             itemTwo={
               <ReactCompareSliderImage
                 alt="After Using Zarwa Hair Oil"
-                src="https://images.unsplash.com/photo-1619946794139-4d84e5d0c53a?auto=format&fit=crop&w=800&q=80"
+                src="/images/before.webp"
               />
             }
             position={50}
