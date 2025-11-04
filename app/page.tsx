@@ -3,27 +3,26 @@ import Transformation from "@/components/Transformation";
 import About from "@/components/About";
 import ProductHighlights from "@/components/ProductHighlights";
 import StatsSection from "@/components/StatsSection";
-import Testimonials from "@/components/Testimonials";
+const Testimonials = dynamic(() => import("@/components/Testimonials"));
+const FAQ = dynamic(() => import("@/components/FAQ"));
 import HowToUse from "@/components/HowToUse";
-import FAQ from "@/components/FAQ";
+// import FAQ from "@/components/FAQ";
 import React from "react";
 import PaymentMethods from "@/components/PaymentMethods";
+import dynamic from "next/dynamic";
 
 const App = () => {
   return (
     <div>
-      <Hero />
-      <StatsSection />
-      <PaymentMethods />
-
-      <Transformation />
-
-      <ProductHighlights />
-      <About />
-
-      <HowToUse />
-      <Testimonials />
-      <FAQ />
+      <Hero /> {/* White BG */}
+      <StatsSection /> {/* Green BG */}
+      <Transformation /> {/* White BG */}
+      <ProductHighlights /> {/* Green BG */}
+      <About /> {/* White BG */}
+      <HowToUse /> {/* Green BG */}
+      <Testimonials /> {/* White BG */}
+      <PaymentMethods /> {/* White BG */}
+      <FAQ /> {/* Green BG */}
     </div>
   );
 };

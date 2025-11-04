@@ -55,7 +55,7 @@ export default function Header() {
       className="fixed top-0 left-0 w-full z-50 bg-white/80 backdrop-blur-md shadow-sm"
     >
       {/* 🔸 Animated Announcement Bar */}
-      <div className="w-full bg-[#4C6B43] text-white text-sm sm:text-base py-5 overflow-hidden relative flex justify-center items-center font-medium tracking-wide">
+      <div className="w-full bg-[#4F6F52] text-white text-sm sm:text-base py-5 overflow-hidden relative flex justify-center items-center font-medium tracking-wide">
         <AnimatePresence mode="wait">
           <motion.div
             key={messages[index]}

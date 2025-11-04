@@ -60,7 +60,7 @@ const FAQ = () => {
   };
 
   return (
-    <section className="w-full bg-[#4C6B43] py-20 text-white">
+    <section className="w-full bg-[#4F6F52] py-20 text-white">
       <div className="max-w-5xl mx-auto px-6">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}

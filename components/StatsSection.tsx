@@ -157,20 +157,6 @@ export default function StatsSection() {
       </div>
 
       {/* CTA */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8, delay: 0.5 }}
-        className="mt-20 text-center"
-      >
-        <a
-          href="#shop"
-          className="inline-block bg-white text-[#4F6F52] font-semibold rounded-full px-10 py-4 text-lg shadow-md hover:shadow-lg hover:scale-[1.03] transition-transform duration-300"
-        >
-          Join the Zarwa Hair Community
-        </a>
-      </motion.div>
     </section>
   );
 }
