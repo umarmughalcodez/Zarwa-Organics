@@ -13,35 +13,35 @@ export default function TestimonialsSection() {
       name: "Ayesha",
       title: "Karachi",
       text: "I had tried everything for my hair fall until Zarwa Organics. Within weeks, I noticed less breakage and real volume coming back. It feels pure and smells amazing!",
-      image: "/images/testimonials/ayesha.webp",
+      image: "/images/test1.webp",
     },
     {
       id: 2,
       name: "Sara",
       title: "Lahore",
       text: "Zarwa oil reminds me of my dadi’s natural hair remedies — except it’s lighter, non-sticky, and beautifully fragrant. My hair feels alive again!",
-      image: "/images/testimonials/sara.webp",
+      image: "/images/test2.webp",
     },
     {
       id: 3,
       name: "Hira",
       title: "Islamabad",
       text: "This is not just oil — it’s therapy. I use it twice a week and my hair has grown faster than ever. The herbal aroma feels so calming too.",
-      image: "/images/testimonials/hira.webp",
+      image: "/images/test3.webp",
     },
     {
       id: 4,
       name: "Mariam",
       title: "Faisalabad",
       text: "After pregnancy, my hair became dull and thin. Zarwa helped me regain the shine and strength I had lost. Truly an honest product!",
-      image: "/images/testimonials/mariam.webp",
+      image: "/images/test4.webp",
     },
     {
       id: 5,
       name: "Anum",
       title: "Rawalpindi",
       text: "Love how soft and full my hair feels after every use. It’s herbal, ethical, and totally worth every rupee!",
-      image: "/images/testimonials/anum.webp",
+      image: "/images/test5.webp",
     },
   ];
 
@@ -77,7 +77,7 @@ export default function TestimonialsSection() {
   const displayTestimonials = getDisplayedTestimonials();
 
   return (
-    <section className="relative py-24 px-6 bg-[#FAF8F2] overflow-hidden">
+    <section className="relative py-24 px-6 bg-[#ffffff] overflow-hidden">
       <div className="max-w-6xl mx-auto text-center">
         {/* Heading */}
         <motion.h2
