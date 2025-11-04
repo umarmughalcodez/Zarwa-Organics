@@ -10,6 +10,7 @@ import HowToUse from "@/components/HowToUse";
 import React from "react";
 import PaymentMethods from "@/components/PaymentMethods";
 import dynamic from "next/dynamic";
+import FinalCTA from "@/components/FinalCTA";
 
 const App = () => {
   return (
@@ -21,8 +22,9 @@ const App = () => {
       <About /> {/* White BG */}
       <HowToUse /> {/* Green BG */}
       <Testimonials /> {/* White BG */}
-      <PaymentMethods /> {/* White BG */}
       <FAQ /> {/* Green BG */}
+      <PaymentMethods /> {/* White BG */}
+      <FinalCTA />
     </div>
   );
 };

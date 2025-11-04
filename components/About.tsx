@@ -6,7 +6,7 @@ export default function About() {
   return (
     <section
       id="about"
-      className="relative overflow-hidden bg-[#F9F7F3] py-24 text-[#3E3B2D]"
+      className="relative overflow-hidden bg-[#ffffff] py-24 text-[#3E3B2D]"
     >
       {/* Soft botanical glow */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(139,190,103,0.12),transparent_70%)]" />
@@ -20,7 +20,7 @@ export default function About() {
           transition={{ duration: 0.8 }}
           className="relative w-full md:w-1/2 flex justify-center"
         >
-          <div className="relative w-[300px] md:w-[420px] h-[380px] md:h-[500px] rounded-3xl overflow-hidden shadow-xl border border-[#E6E2D9]">
+          <div className="relative w-[300px] md:w-[420px] h-[380px] md:h-[500px] rounded-3xl overflow-hidden shadow-xl border-4 border-[#8BBE67]">
             <Image
               src="/images/about.png" // Replace with your real brand photo
               alt="About Zarwa Organics"
@@ -41,7 +41,7 @@ export default function About() {
           transition={{ duration: 0.8 }}
           className="md:w-1/2 text-center md:text-left"
         >
-          <h2 className="text-4xl md:text-5xl font-semibold text-[#6F8F58] mb-6">
+          <h2 className="text-4xl md:text-5xl font-semibold text-[#8BBE67] mb-6">
             About Zarwa Organics
           </h2>
 

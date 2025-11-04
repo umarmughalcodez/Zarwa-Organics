@@ -3,6 +3,8 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import { FaCheckCircle } from "react-icons/fa";
+import { MdVerified } from "react-icons/md";
 
 export default function TestimonialsSection() {
   const testimonials = [
@@ -83,7 +85,7 @@ export default function TestimonialsSection() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="text-4xl font-semibold text-[#79B27B] mb-4"
+          className="text-4xl font-semibold text-[#8BBE67] mb-4"
         >
           What Our Customers Say
         </motion.h2>
@@ -136,10 +138,16 @@ export default function TestimonialsSection() {
                     <p className="text-[#5A574F] text-sm sm:text-base leading-relaxed mb-4">
                       “{t.text}”
                     </p>
-                    <div>
-                      <h4 className="font-semibold text-[#2E2B27] text-base sm:text-lg">
-                        {t.name}
-                      </h4>
+                    <div className="flex flex-col items-center">
+                      <div className="flex items-center space-x-1">
+                        <h4 className="font-semibold text-[#2E2B27] text-base sm:text-lg">
+                          {t.name}
+                        </h4>
+                        <MdVerified
+                          className="text-[#79B27B] text-sm"
+                          title="Verified User"
+                        />
+                      </div>
                       <p className="text-[#79B27B] text-xs sm:text-sm">
                         {t.title}
                       </p>

@@ -11,7 +11,7 @@ import {
 
 export default function PaymentMethods() {
   return (
-    <section className="relative bg-[#ffffff] text-[#444] py-20 px-6 overflow-hidden">
+    <section className="relative bg-[#ffffff] text-[#444] py-16 px-6 overflow-hidden">
       {/* Soft organic shimmer */}
       <motion.div
         className="absolute inset-0 bg-gradient-to-tr from-[#C5A45A]/15 via-transparent to-transparent blur-3xl"
@@ -37,7 +37,7 @@ export default function PaymentMethods() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1, delay: 0.2 }}
-          className="text-[#444] max-w-2xl mx-auto text-lg leading-relaxed mb-12"
+          className="text-[#444] max-w-2xl mx-auto text-lg leading-relaxed mb-16"
         >
           We make ordering{" "}
           <span className="text-[#8BBE67] font-semibold">
@@ -53,7 +53,7 @@ export default function PaymentMethods() {
         </motion.p>
 
         {/* Payment Icons Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 justify-items-center mt-10">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 justify-items-center mt-16">
           {/* Easypaisa */}
           <motion.div
             whileHover={{ scale: 1.05 }}
@@ -66,7 +66,7 @@ export default function PaymentMethods() {
               width={180}
               height={180}
             />
-            <span className="text-[#8BBE67] font-medium">Easypaisa</span>
+            <span className="text-[#8BBE67] font-semibold">Easypaisa</span>
           </motion.div>
 
           {/* JazzCash */}
@@ -81,7 +81,7 @@ export default function PaymentMethods() {
               width={180}
               height={180}
             />
-            <span className="text-[#8BBE67] font-medium">JazzCash</span>
+            <span className="text-[#8BBE67] font-semibold">JazzCash</span>
           </motion.div>
 
           {/* Bank Transfer */}
@@ -96,7 +96,7 @@ export default function PaymentMethods() {
               width={80}
               height={80}
             />
-            <span className="text-[#8BBE67] font-medium">Bank Transfer</span>
+            <span className="text-[#8BBE67] font-semibold">Bank Transfer</span>
           </motion.div>
 
           {/* Cash on Delivery */}
@@ -111,7 +111,9 @@ export default function PaymentMethods() {
               width={80}
               height={80}
             />
-            <span className="text-[#8BBE67] font-medium">Cash on Delivery</span>
+            <span className="text-[#8BBE67] font-semibold">
+              Cash on Delivery
+            </span>
           </motion.div>
         </div>
 

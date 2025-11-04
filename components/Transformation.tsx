@@ -28,7 +28,7 @@ const Transformation = () => {
   return (
     <section
       id="transformation"
-      className="w-full flex flex-col lg:flex-row items-center justify-center text-[#3E3B2D] py-20 px-6 md:px-12 xl:px-24 bg-[#F9F7F3] overflow-x-hidden"
+      className="w-full flex flex-col-reverse lg:flex-row items-center justify-center text-[#3E3B2D] py-10 px-6 md:px-12 xl:px-24 bg-[#ffffff] overflow-x-hidden space-y-8"
     >
       {/* === Left Content === */}
       <motion.div
@@ -40,7 +40,7 @@ const Transformation = () => {
         <motion.div variants={fadeUp}>
           <h2 className="text-4xl md:text-5xl font-semibold leading-tight mb-6">
             Witness Your{" "}
-            <span className="text-[#6F8F58]">Hair Transformation</span> —
+            <span className="text-[#8BBE67]">Hair Transformation</span> —
             Naturally with{" "}
             <span className="text-[#8BBE67]">Zarwa Organics</span>
           </h2>
@@ -83,12 +83,10 @@ const Transformation = () => {
           <div className="hidden sm:block h-[60px] w-[1px] bg-gradient-to-b from-transparent via-[#8BBE67] to-transparent" />
 
           <div className="flex flex-col items-center text-center">
-            <span className="font-semibold text-lg text-[#6F8F58]">
-              Ethical & Cruelty-Free
+            <span className="font-semibold text-lg text-[#8BBE67]">
+              Gentle by Nature
             </span>
-            <span className="text-sm text-gray-600">
-              Pure. Honest. Effective.
-            </span>
+            <span className="text-sm text-gray-600">Real. Pure. Effective</span>
           </div>
         </motion.div>
 
@@ -110,7 +108,7 @@ const Transformation = () => {
 
       {/* === Right Compare Section === */}
       <motion.div
-        className="w-full lg:w-1/2 flex flex-col items-center justify-center mt-12 lg:mt-0 space-y-3"
+        className="w-full lg:w-1/2 flex flex-col items-center justify-center mt-6 mb-12 lg:mb-0 lg:mt-0 space-y-3"
         initial="hidden"
         whileInView="visible"
         variants={fadeRight}

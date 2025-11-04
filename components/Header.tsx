@@ -16,10 +16,10 @@ export default function Header() {
   const [lastScrollY, setLastScrollY] = useState(0);
 
   const messages = [
-    "✨ Free shipping on all orders over $50!",
-    "🐾 Get 10% off your first order — use code WELCOME10",
-    "🌿 All-natural ingredients, crafted with care.",
-    "🚚 Fast worldwide delivery from the USA!",
+    "✨ Free delivery on all orders above Rs. 2000",
+    "🔥 Get 10% off your first order — use code WELCOME10",
+    "☘️ All-natural ingredients, crafted with care.",
+    "🚚 Fast delivery all over Pakistan!",
   ];
 
   useEffect(() => {
@@ -79,15 +79,8 @@ export default function Header() {
           // fill
           width={100}
           height={80}
+          className="w-[80px] h-auto md:w-[100px]" // 👈 responsive adjustment
         />
-        {/* <Button
-          // variant="link"
-          // effect="hoverUnderline"
-          className="text-2xl font-heading font-semibold text-charcoal"
-          onClick={() => router.push("/")}
-        >
-          Auroscents
-        </Button> */}
 
         {/* Desktop Menu */}
         <ul className="hidden md:flex gap-8 text-gray-800 font-medium">
@@ -108,23 +101,10 @@ export default function Header() {
           effect={"expandIcon"}
           iconPlacement="right"
           icon={MdOutlineShoppingCart}
-          className="bg-gradient-to-br from-[#9fc96b] to-[#86b95a] rounded-3xl hidden md:flex items-center font-semibold"
+          className="bg-gradient-to-br from-[#8BBE67] to-[#6F8F58] rounded-3xl hidden md:flex items-center font-semibold"
         >
           Order Now
         </Button>
-
-        {/* Icons */}
-        {/* <div className="hidden md:flex items-center gap-5">
-          <button aria-label="Search">
-            <Search className="w-5 h-5 text-gray-700" />
-          </button>
-          <button aria-label="Login">
-            <User className="w-5 h-5 text-gray-700" />
-          </button>
-          <button aria-label="Cart">
-            <ShoppingCart className="w-5 h-5 text-gray-700" />
-          </button>
-        </div> */}
 
         {/* Mobile Menu Button */}
         <button
@@ -153,14 +133,9 @@ export default function Header() {
                   </Button>
                 </li>
               ))}
-              <Button className="bg-gradient-to-br from-[#9fc96b] to-[#86b95a] rounded-3xl font-semibold">
+              <Button className="bg-gradient-to-br from-[#8BBE67] to-[#6F8F58] rounded-3xl font-semibold">
                 Order Now
               </Button>
-              {/* <div className="flex items-center gap-6 pt-4">
-                <Search className="w-5 h-5 text-gray-700" />
-                <User className="w-5 h-5 text-gray-700" />
-                <ShoppingCart className="w-5 h-5 text-gray-700" />
-              </div> */}
             </ul>
           </div>
         )}

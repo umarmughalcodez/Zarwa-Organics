@@ -41,7 +41,10 @@ export default function HeroImages() {
   }, []);
 
   return (
-    <section className="relative w-full min-h-screen bg-[#f7f4ee] overflow-hidden flex flex-col mt-24">
+    <section
+      className="relative w-full min-h-screen bg-[#ffffff] overflow-hidden flex flex-col mt-24"
+      id="hero"
+    >
       {/* === Image Slideshow === */}
       <div className="relative w-full h-[60vh] sm:h-screen overflow-hidden">
         {slides.map((slide, i) => (
@@ -79,7 +82,7 @@ export default function HeroImages() {
             className="max-w-3xl"
           >
             {/* ✅ Green text on mobile, white on large screens */}
-            <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold leading-tight text-[#79B27B] lg:text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.3)] transition-colors duration-300">
+            <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold leading-tight text-[#79B27B] lg:text-white  transition-colors duration-300">
               {slides[index].title}
             </h1>
 
