@@ -1,15 +1,63 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
+// prisma/schema.prisma
 generator client {
-  provider = "prisma-client"
-  output   = "../lib/generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  firstName String   @map("first_name")
+  lastName  String   @map("last_name")
+  email     String
+  phone     String
+  city      String
+  zip       String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  orders Order[]
+
+  @@map("users")
+}
+
+model Order {
+  id               String   @id @default(cuid())
+  userId           Int?
+  user             User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  firstName        String   @map("first_name")
+  lastName         String   @map("last_name")
+  email            String
+  phone            String
+  city             String
+  zip              String
+  subtotal         Int
+  totalSavings     Int
+  total            Int
+  couponCode       String?
+  couponDiscount   Int      @default(0)
+  bulkDiscount     Int      @default(0)
+  status           String   @default("pending")
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  orderItems OrderItem[]
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id              String   @id @default(cuid())
+  orderId         String
+  order           Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId       String
+  productName     String
+  unitPrice       Int
+  quantity        Int
+  bulkDiscountPct Int
+
+  @@map("order_items")
 }
