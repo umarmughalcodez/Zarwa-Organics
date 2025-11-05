@@ -40,6 +40,13 @@ model Order {
   couponCode       String?
   couponDiscount   Int      @default(0)
   bulkDiscount     Int      @default(0)
+  
+  // Add these payment fields
+  paymentMethod    String?  @map("payment_method")
+  paymentStatus    String   @default("pending") @map("payment_status")
+  securityDeposit  Int      @default(0) @map("security_deposit")
+  paymentScreenshot String? @map("payment_screenshot")
+  
   status           String   @default("pending")
   createdAt        DateTime @default(now()) @map("created_at")
   updatedAt        DateTime @updatedAt @map("updated_at")

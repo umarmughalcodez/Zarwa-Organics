@@ -87,7 +87,7 @@ export default function DebugPage() {
   }, []);
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
+    <div className="p-6 max-w-4xl mx-auto mt-30">
       <h1 className="text-2xl font-bold mb-6">System Debug</h1>
 
       <div className="space-y-4 mb-6">
