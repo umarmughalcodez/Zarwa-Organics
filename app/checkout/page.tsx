@@ -16,6 +16,8 @@ import {
 } from "@/components/ui/select";
 import toast from "react-hot-toast";
 
+const MIN_QUANTITY = 1;
+const MAX_QUANTITY = 20;
 const BASE_PRICE = 699;
 
 function getBulkDiscountPercent(qty: number) {
@@ -29,13 +31,18 @@ export default function CheckoutPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const initialQty = Number(searchParams?.get("qty") ?? 1) || 1;
   const initialDiscount = Number(searchParams?.get("discount") ?? 0) || 0;
-
+  const initialQty = Math.max(
+    MIN_QUANTITY,
+    Math.min(MAX_QUANTITY, Number(searchParams?.get("qty") ?? 1) || 1)
+  );
   const [qty, setQty] = useState<number>(initialQty);
   const [bulkDiscountPct, setBulkDiscountPct] = useState<number>(
     initialDiscount || getBulkDiscountPercent(initialQty)
   );
+  const [province, setProvince] = useState("");
+  const [landmark, setLandmark] = useState("");
+  const [address, setAddress] = useState("");
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -47,29 +54,39 @@ export default function CheckoutPage() {
   const [couponApplied, setCouponApplied] = useState(false);
   const [couponPct, setCouponPct] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submissionAttempts, setSubmissionAttempts] = useState(0);
+
+  // ADD THIS FUNCTION AFTER THE CONSTANTS (around line 20):
+  function calculateSecurityDeposit(totalAmount: number): number {
+    if (totalAmount < 1000) return 150;
+    if (totalAmount < 2000) return 300;
+    if (totalAmount < 4000) return 500;
+    return 800; // for 5000 and above
+  }
 
   const [errors, setErrors] = useState<string[]>([]);
-  // Add this inside your CheckoutPage component, before the return statement
-  const [debugInfo, setDebugInfo] = useState<any>(null);
 
-  const testBackend = async () => {
-    try {
-      console.log("🧪 Testing backend connection...");
-      const res = await fetch("/api/debug");
-      const data = await res.json();
-      setDebugInfo(data);
-      console.log("Backend test result:", data);
-    } catch (error) {
-      console.error("Backend test failed:", error);
-    }
-  };
+  // Add this inside your CheckoutPage component, before the return statement
+  // const [debugInfo, setDebugInfo] = useState<any>(null);
+
+  // const testBackend = async () => {
+  //   try {
+  //     console.log("🧪 Testing backend connection...");
+  //     const res = await fetch("/api/debug");
+  //     const data = await res.json();
+  //     setDebugInfo(data);
+  //     console.log("Backend test result:", data);
+  //   } catch (error) {
+  //     console.error("Backend test failed:", error);
+  //   }
+  // };
 
   // Call this on component mount
-  useEffect(() => {
-    if (process.env.NODE_ENV === "development") {
-      testBackend();
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (process.env.NODE_ENV === "development") {
+  //     testBackend();
+  //   }
+  // }, []);
 
   useEffect(() => {
     setBulkDiscountPct(getBulkDiscountPercent(qty));
@@ -83,21 +100,88 @@ export default function CheckoutPage() {
   const total = subtotal - bulkDiscountAmount - couponDiscountAmount;
   const totalSavings = bulkDiscountAmount + couponDiscountAmount;
 
+  // This function double-checks all calculations are correct
+  function validatePrices(): boolean {
+    // Calculate what the prices SHOULD be
+    const expectedSubtotal = BASE_PRICE * qty;
+    const expectedBulkDiscount = Math.round(
+      (expectedSubtotal * bulkDiscountPct) / 100
+    );
+    const expectedCouponDiscount = Math.round(
+      (expectedSubtotal - expectedBulkDiscount) * (couponPct / 100)
+    );
+    const expectedTotal =
+      expectedSubtotal - expectedBulkDiscount - expectedCouponDiscount;
+
+    // Allow small difference for rounding (1-2 Rs)
+    const priceTolerance = 2;
+
+    // Check if calculated prices match displayed prices
+    const subtotalValid =
+      Math.abs(subtotal - expectedSubtotal) <= priceTolerance;
+    const totalValid = Math.abs(total - expectedTotal) <= priceTolerance;
+
+    if (!subtotalValid || !totalValid) {
+      console.error("Price tampering detected!", {
+        calculated: { expectedSubtotal, expectedTotal },
+        current: { subtotal, total },
+      });
+      return false;
+    }
+
+    return true;
+  }
+
+  // This function checks if a phone number is valid Pakistani number
+  function validatePakistanPhone(phone: string): boolean {
+    // First, remove spaces, dashes, etc. to get clean numbers only
+    const cleanPhone = phone.replace(/[\s\-\(\)]/g, "");
+
+    // Check different Pakistani number formats
+    const patterns = [
+      /^03\d{9}$/, // 03001234567 (11 digits starting with 03)
+      /^\+92\d{10}$/, // +923001234567 (12 digits starting with +92)
+      /^92\d{10}$/, // 923001234567 (11 digits starting with 92)
+      /^3\d{9}$/, // 3001234567 (10 digits starting with 3)
+    ];
+
+    // Return true if ANY of these patterns match
+    return patterns.some((pattern) => pattern.test(cleanPhone));
+  }
+
+  // This function checks if an email is valid
+  function validateEmail(email: string): boolean {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+
   function validateForm() {
     const e: string[] = [];
+
     if (!firstName.trim()) e.push("First name is required.");
     if (!lastName.trim()) e.push("Last name is required.");
-    if (!email.trim() || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email))
-      e.push("Valid email is required.");
-    if (!phone.trim() || phone.trim().length < 7)
-      e.push("Valid phone number is required.");
+
+    // NEW: Email validation
+    if (!email.trim()) {
+      e.push("Email is required.");
+    } else if (!validateEmail(email)) {
+      e.push("Please enter a valid email address.");
+    }
+
+    // NEW: Phone validation
+    if (!phone.trim()) {
+      e.push("Phone number is required.");
+    } else if (!validatePakistanPhone(phone)) {
+      e.push(
+        "Please enter a valid Pakistani phone number (03XXXXXXXXX or +92XXXXXXXXXXX)."
+      );
+    }
+
     if (!city.trim()) e.push("City is required.");
-    if (!zip.trim()) e.push("ZIP/postal code is required.");
+    if (!province.trim()) e.push("Province is required.");
+    if (!address.trim()) e.push("Complete Address is required.");
 
-    // still keep errors in state (optional) so you can inspect them if needed
     setErrors(e);
-
-    // return the array so callers can use it synchronously
     return e;
   }
 
@@ -164,6 +248,7 @@ export default function CheckoutPage() {
   //   }
 
   // In your handleProceedToPayment function, replace with this:
+
   async function handleProceedToPayment() {
     // Run validation first
     const errs = validateForm();
@@ -172,18 +257,66 @@ export default function CheckoutPage() {
       return;
     }
 
+    if (!validatePrices()) {
+      toast.error(
+        "Invalid order calculation detected. Please refresh the page."
+      );
+    }
+
+    if (submissionAttempts >= 5) {
+      toast.error("Too many attempts. Please wait a few minutes.");
+      return;
+    }
+    setSubmissionAttempts((prev) => prev + 1);
+
+    const expectedSubtotal = BASE_PRICE * qty;
+    const expectedBulkDiscount = Math.round(
+      (expectedSubtotal * bulkDiscountPct) / 100
+    );
+    const expectedCouponDiscount = Math.round(
+      (expectedSubtotal - expectedBulkDiscount) * (couponPct / 100)
+    );
+    const expectedTotal =
+      expectedSubtotal - expectedBulkDiscount - expectedCouponDiscount;
+
+    // Check for price manipulation
+    const priceTolerance = 1; // Allow 1 Rs difference for rounding
+    if (
+      Math.abs(subtotal - expectedSubtotal) > priceTolerance ||
+      Math.abs(total - expectedTotal) > priceTolerance
+    ) {
+      toast.error(
+        "Invalid order calculation detected. Please refresh the page."
+      );
+      console.error("Price tampering detected", {
+        calculated: { expectedSubtotal, expectedTotal },
+        current: { subtotal, total },
+      });
+      return;
+    }
+
     // Prevent double submits
     if (isSubmitting) return;
     setIsSubmitting(true);
 
-    console.log("🟡 Starting order submission...", {
+    console.log("🟡 Starting order submission... Please wait", {
       user: { firstName, lastName, email, phone, city, zip },
       items: [{ productId: "zarwa-hair-growth-oil", qty, bulkDiscountPct }],
       financials: { subtotal, totalSavings, total },
     });
 
     const tempOrder = {
-      user: { firstName, lastName, email, phone, city, zip },
+      user: {
+        firstName,
+        lastName,
+        email,
+        phone,
+        city,
+        zip,
+        province,
+        address,
+        landmark,
+      },
       items: [
         {
           productId: "zarwa-hair-growth-oil",
@@ -209,7 +342,7 @@ export default function CheckoutPage() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "X-Debug": "true",
+          // "X-Debug": "true",
         },
         body: JSON.stringify(tempOrder),
       });
@@ -233,6 +366,8 @@ export default function CheckoutPage() {
 
       // Save the temp order locally too (with orderId from server)
       const orderWithId = { ...tempOrder, orderId: result.orderId };
+      setSubmissionAttempts(0);
+
       try {
         localStorage.setItem("zarwa_temp_order", JSON.stringify(orderWithId));
         console.log("✅ Order saved to localStorage");
@@ -282,39 +417,105 @@ export default function CheckoutPage() {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 gap-4">
+              <label className="block text-sm font-medium">First Name *</label>
               <Input
                 className="border-[#8BBE67] focus:ring-[#8BBE67]"
-                placeholder="First name"
+                placeholder="Enter your first name"
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
               />
+              <label className="block text-sm font-medium">Last Name *</label>
+
               <Input
                 className="border-[#8BBE67] focus:ring-[#8BBE67]"
-                placeholder="Last name"
+                placeholder="Enter your last name"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
               />
+              <label className="block text-sm font-medium">Email *</label>
+
               <Input
                 className="border-[#8BBE67] focus:ring-[#8BBE67]"
-                placeholder="Email"
+                placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
+              <label className="block text-sm font-medium">
+                Phone Number *
+              </label>
+
               <Input
                 className="border-[#8BBE67] focus:ring-[#8BBE67]"
-                placeholder="Phone"
+                placeholder="Enter your Phone number"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
+                onBlur={() => {
+                  // When user leaves the field, check if valid
+                  if (phone && !validatePakistanPhone(phone)) {
+                    toast.error("Please enter a valid Pakistani phone number");
+                  }
+                }}
               />
+              <label className="block text-sm font-medium">City *</label>
+
               <Input
                 className="border-[#8BBE67] focus:ring-[#8BBE67]"
-                placeholder="City / Town"
+                placeholder="Enter your city"
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
               />
+              <label className="block text-sm font-medium">
+                Complete Address *
+              </label>
+
               <Input
                 className="border-[#8BBE67] focus:ring-[#8BBE67]"
-                placeholder="ZIP / Postal"
+                placeholder="Enter your Complete Address"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+              />
+              <div>
+                <label className="block text-sm font-medium mb-2">
+                  Province *
+                </label>
+                <Select onValueChange={setProvince} required>
+                  <SelectTrigger className="border-[#8BBE67] focus:ring-[#8BBE67]">
+                    <SelectValue placeholder="Select Province" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Punjab">Punjab</SelectItem>
+                    <SelectItem value="Sindh">Sindh</SelectItem>
+                    <SelectItem value="KPK">Khyber Pakhtunkhwa</SelectItem>
+                    <SelectItem value="Balochistan">Balochistan</SelectItem>
+                    <SelectItem value="Gilgit-Baltistan">
+                      Gilgit-Baltistan
+                    </SelectItem>
+                    <SelectItem value="Azad Kashmir">Azad Kashmir</SelectItem>
+                    <SelectItem value="Islamabad">
+                      Islamabad Capital Territory
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              {/* Landmark Input */}
+              <div>
+                <label className="block text-sm font-medium mb-2">
+                  Nearest Landmark (Optional)
+                </label>
+                <Input
+                  className="border-[#8BBE67] focus:ring-[#8BBE67]"
+                  placeholder="e.g., Near Liberty Market, beside MCB Bank"
+                  value={landmark}
+                  onChange={(e) => setLandmark(e.target.value)}
+                />
+              </div>
+              <label className="block text-sm font-medium">
+                ZIP / Postal Code (optional)
+              </label>
+
+              <Input
+                className="border-[#8BBE67] focus:ring-[#8BBE67]"
+                placeholder="Enter your zip code"
                 value={zip}
                 onChange={(e) => setZip(e.target.value)}
               />
@@ -325,7 +526,7 @@ export default function CheckoutPage() {
               <div className="flex items-center gap-3">
                 <Button
                   className="bg-gradient-to-br from-[#8BBE67] to-[#6F8F58] text-white rounded-full"
-                  onClick={() => setQty((q) => Math.max(1, q - 1))}
+                  onClick={() => setQty((q) => Math.max(MIN_QUANTITY, q - 1))}
                 >
                   -
                 </Button>
@@ -334,24 +535,27 @@ export default function CheckoutPage() {
                 </div>
                 <Button
                   className="bg-gradient-to-br from-[#8BBE67] to-[#6F8F58] text-white rounded-full"
-                  onClick={() => setQty((q) => q + 1)}
+                  onClick={() => setQty((q) => Math.min(MAX_QUANTITY, q + 1))}
                 >
                   +
                 </Button>
               </div>
             </div>
-            <div className="mt-6">
-              <Select onValueChange={(v) => setQty(Number(v))}>
+            <div className="mt-4">
+              {/* <Select onValueChange={(v) => setQty(Number(v))}>
                 <SelectTrigger className="w-[120px] border-[#8BBE67] focus:ring-[#8BBE67]">
                   <SelectValue placeholder="Quick qty" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="1">1</SelectItem>
-                  <SelectItem value="3">3</SelectItem>
-                  <SelectItem value="5">5</SelectItem>
-                  <SelectItem value="8">8</SelectItem>
+                  <SelectItem value="1">Select Bulk</SelectItem>
+                  <SelectItem value="3">3 - 5% Off</SelectItem>
+                  <SelectItem value="5">5 - 8% Off</SelectItem>
+                  <SelectItem value="8">8 - 10% Off</SelectItem>
                 </SelectContent>
-              </Select>
+              </Select> */}
+              <p className="mt-2 text-[#8BBE67]">
+                You will save Rs. {bulkDiscountAmount}
+              </p>
             </div>
 
             <div className="mt-6">
@@ -406,7 +610,7 @@ export default function CheckoutPage() {
           <CardContent>
             <div className="flex items-center gap-4">
               <img
-                src="https://res.cloudinary.com/demo/image/upload/sample.jpg"
+                src="/images/img3.png"
                 alt="product"
                 className="w-24 h-24 object-cover rounded"
               />
@@ -445,7 +649,8 @@ export default function CheckoutPage() {
               </div>
 
               <div className="mt-4 text-xs text-muted-foreground">
-                A small confirmation fee of Rs. 150 is required on the next page
+                A small confirmation fee of Rs.{" "}
+                {calculateSecurityDeposit(total)} is required on the next page
                 to secure your order.
               </div>
             </div>

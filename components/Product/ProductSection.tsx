@@ -6,6 +6,7 @@ import { Button } from "../ui/button";
 import { fadeUp, fadeRight } from "@/lib/animations";
 import QuantitySelector from "./QuantitySelector";
 import BulkDiscountSelector from "./BulkDiscountSelector";
+import { useRouter } from "next/navigation";
 
 export default function ProductSection() {
   const images = [
@@ -17,6 +18,7 @@ export default function ProductSection() {
 
   const [selectedImage, setSelectedImage] = useState(images[0]);
   const [quantity, setQuantity] = useState(1);
+  const router = useRouter();
 
   return (
     <section
@@ -103,7 +105,14 @@ export default function ProductSection() {
         <BulkDiscountSelector onQuantityChange={(q) => setQuantity(q)} />
 
         {/* Buy Now Button */}
-        <Button className="bg-gradient-to-br from-[#8BBE67] to-[#6F8F58] text-white text-sm font-medium px-8 py-3 rounded-full shadow-md hover:shadow-lg hover:scale-[1.03] transition-transform">
+        <Button
+          className="bg-gradient-to-br from-[#8BBE67] to-[#6F8F58] text-white text-sm font-medium px-8 py-3 rounded-full shadow-md hover:shadow-lg hover:scale-[1.03] transition-transform"
+          onClick={() => {
+            // Validate quantity before redirect
+            const validQuantity = Math.max(1, Math.min(20, quantity));
+            router.push(`/checkout?qty=${validQuantity}`);
+          }}
+        >
           Buy Now
         </Button>
       </motion.div>

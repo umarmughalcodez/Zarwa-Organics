@@ -380,10 +380,63 @@ export default function PaymentPage() {
           </CardHeader>
           <CardContent>
             {orderData ? (
+              // <>
+              //   <div className="flex items-center gap-4 mb-4">
+              //     <img
+              //       src="https://res.cloudinary.com/demo/image/upload/sample.jpg"
+              //       alt="Zarwa Hair Growth Oil"
+              //       className="w-16 h-16 object-cover rounded"
+              //     />
+              //     <div>
+              //       <div className="font-semibold">Zarwa Hair Growth Oil</div>
+              //       <div className="text-sm">Qty: {qty}</div>
+              //       <div className="text-sm text-[#8BBE67]">
+              //         Rs. {orderData.total}
+              //       </div>
+              //     </div>
+              //   </div>
+
+              //   <div className="border-t pt-4 space-y-2">
+              //     <div className="flex justify-between">
+              //       <span>Order ID:</span>
+              //       <span className="text-sm font-mono">{orderId}</span>
+              //     </div>
+              //     <div className="flex justify-between">
+              //       <span>Email:</span>
+              //       <span className="text-sm">{orderData.user?.email}</span>
+              //     </div>
+              //     <div className="flex justify-between">
+              //       <span>Shipping to:</span>
+              //       <span className="text-sm text-right">
+              //         {orderData.user?.city}, {orderData.user?.zip}
+              //       </span>
+              //     </div>
+
+              //     {/* Payment Summary */}
+              //     <div className="border-t mt-4 pt-4 space-y-2">
+              //       <div className="flex justify-between font-semibold">
+              //         <span>Order Total:</span>
+              //         <span>Rs. {totalAmount}</span>
+              //       </div>
+              //       {selectedMethod === "cod" && (
+              //         <>
+              //           <div className="flex justify-between text-green-600">
+              //             <span>Security Deposit:</span>
+              //             <span>- Rs. {securityDeposit}</span>
+              //           </div>
+              //           <div className="flex justify-between text-blue-600">
+              //             <span>Pay on Delivery:</span>
+              //             <span>Rs. {remainingAmount}</span>
+              //           </div>
+              //         </>
+              //       )}
+              //     </div>
+              //   </div>
+              // </>
               <>
                 <div className="flex items-center gap-4 mb-4">
                   <img
-                    src="https://res.cloudinary.com/demo/image/upload/sample.jpg"
+                    src="/images/img3.png"
                     alt="Zarwa Hair Growth Oil"
                     className="w-16 h-16 object-cover rounded"
                   />
@@ -405,32 +458,20 @@ export default function PaymentPage() {
                     <span>Email:</span>
                     <span className="text-sm">{orderData.user?.email}</span>
                   </div>
+                  {/* ADD ADDRESS PREVIEW */}
                   <div className="flex justify-between">
                     <span>Shipping to:</span>
                     <span className="text-sm text-right">
-                      {orderData.user?.city}, {orderData.user?.zip}
+                      {orderData.user?.address}
+                      <br />
+                      {orderData.user?.city}, {orderData.user?.province}
+                      <br />
+                      {orderData.user?.landmark &&
+                        `Near ${orderData.user.landmark}`}
+                      {orderData.user?.zip && ` • ${orderData.user.zip}`}
                     </span>
                   </div>
-
-                  {/* Payment Summary */}
-                  <div className="border-t mt-4 pt-4 space-y-2">
-                    <div className="flex justify-between font-semibold">
-                      <span>Order Total:</span>
-                      <span>Rs. {totalAmount}</span>
-                    </div>
-                    {selectedMethod === "cod" && (
-                      <>
-                        <div className="flex justify-between text-green-600">
-                          <span>Security Deposit:</span>
-                          <span>- Rs. {securityDeposit}</span>
-                        </div>
-                        <div className="flex justify-between text-blue-600">
-                          <span>Pay on Delivery:</span>
-                          <span>Rs. {remainingAmount}</span>
-                        </div>
-                      </>
-                    )}
-                  </div>
+                  {/* END OF ADDRESS PREVIEW */}
                 </div>
               </>
             ) : (

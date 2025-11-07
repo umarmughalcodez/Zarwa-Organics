@@ -15,7 +15,10 @@ model User {
   email     String
   phone     String
   city      String
-  zip       String
+  address   String
+  province  String // NEW: Punjab, Sindh, KPK, etc.
+  landmark  String? // NEW: Near Liberty Market, beside MCB Bank, etc.
+  zip       String?
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
@@ -25,41 +28,46 @@ model User {
 }
 
 model Order {
-  id               String   @id @default(cuid())
-  userId           Int?
-  user             User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  firstName        String   @map("first_name")
-  lastName         String   @map("last_name")
-  email            String
-  phone            String
-  city             String
-  zip              String
-  subtotal         Int
-  totalSavings     Int
-  total            Int
-  couponCode       String?
-  couponDiscount   Int      @default(0)
-  bulkDiscount     Int      @default(0)
-  
-  // Add these payment fields
-  paymentMethod    String?  @map("payment_method")
-  paymentStatus    String   @default("pending") @map("payment_status")
-  securityDeposit  Int      @default(0) @map("security_deposit")
-  paymentScreenshot String? @map("payment_screenshot")
-  
-  status           String   @default("pending")
-  createdAt        DateTime @default(now()) @map("created_at")
-  updatedAt        DateTime @updatedAt @map("updated_at")
+  id        String @id @default(cuid())
+  userId    Int?
+  user      User?  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  firstName String @map("first_name")
+  lastName  String @map("last_name")
+  email     String
+  phone     String
+  city      String
+  address   String
 
-  orderItems OrderItem[]
+  province          String // NEW
+  // state             String?     // NEW
+  landmark          String? // NEW
+  zip               String?
+  subtotal          Int
+  totalSavings      Int
+  total             Int
+  couponCode        String?
+  couponDiscount    Int         @default(0)
+  bulkDiscount      Int         @default(0)
+  trackingNumber    String?     @map("tracking_number")
+  shippedAt         DateTime?   @map("shipped_at")
+  deliveredAt       DateTime?   @map("delivered_at")
+  trackingMessage   String?     @map("tracking_message")
+  paymentMethod     String?     @map("payment_method")
+  paymentStatus     String      @default("pending") @map("payment_status")
+  securityDeposit   Int         @default(0) @map("security_deposit")
+  paymentScreenshot String?     @map("payment_screenshot")
+  status            String      @default("pending")
+  createdAt         DateTime    @default(now()) @map("created_at")
+  updatedAt         DateTime    @updatedAt @map("updated_at")
+  orderItems        OrderItem[]
 
   @@map("orders")
 }
 
 model OrderItem {
-  id              String   @id @default(cuid())
+  id              String @id @default(cuid())
   orderId         String
-  order           Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  order           Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
   productId       String
   productName     String
   unitPrice       Int

@@ -216,14 +216,26 @@ export async function POST(request: NextRequest) {
       !user.email ||
       !user.phone ||
       !user.city ||
-      !user.zip
+      !user.address
+      // !user.zip
     ) {
       console.error("❌ Invalid user data");
       return NextResponse.json(
         {
           success: false,
           error: "Invalid user data",
-          debug: { user },
+          debug: {
+            user,
+            missingFields: {
+              firstName: !user.firstName,
+              lastName: !user.lastName,
+              email: !user.email,
+              phone: !user.phone,
+              city: !user.city,
+              province: !user.province,
+              address: !user.address,
+            },
+          },
         },
         { status: 400 }
       );
@@ -248,7 +260,10 @@ export async function POST(request: NextRequest) {
             email: user.email,
             phone: user.phone,
             city: user.city,
-            zip: user.zip,
+            zip: user.zip || null,
+            address: user.address,
+            province: user.province, // MAKE SURE THIS IS HERE
+            landmark: user.landmark || null,
           },
         });
         console.log("✅ User created with ID:", userRecord.id);
@@ -266,7 +281,10 @@ export async function POST(request: NextRequest) {
           email: user.email,
           phone: user.phone,
           city: user.city,
-          zip: user.zip,
+          zip: user.zip || null,
+          province: user.province, // MAKE SURE THIS IS HERE
+          landmark: user.landmark || null, // AND THIS
+          address: user.address,
           subtotal: subtotal,
           totalSavings: totalSavings || 0,
           total: total,
