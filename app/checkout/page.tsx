@@ -205,50 +205,6 @@ export default function CheckoutPage() {
     }
   }
 
-  //   function handleProceedToPayment() {
-  //     if (!validateForm()) {
-  //       if (errors.length > 0) {
-  //         toast.error(errors[0]); // show only the first missing/invalid field
-  //       } else {
-  //         toast.error("Please fill all required fields correctly.");
-  //       }
-  //       return;
-  //     }
-
-  //     const tempOrder = {
-  //       user: { firstName, lastName, email, phone, city, zip },
-  //       items: [
-  //         {
-  //           productId: "zarwa-hair-growth-oil",
-  //           name: "Zarwa Hair Growth Oil",
-  //           unitPrice: BASE_PRICE,
-  //           qty,
-  //           bulkDiscountPct,
-  //         },
-  //       ],
-  //       coupon: couponApplied ? coupon.trim().toUpperCase() : null,
-  //       couponPct: couponApplied ? couponPct : 0,
-  //       subtotal,
-  //       totalSavings,
-  //       total,
-  //       createdAt: new Date().toISOString(),
-  //     } as const;
-
-  //     try {
-  //       localStorage.setItem("zarwa_temp_order", JSON.stringify(tempOrder));
-  //     } catch (err) {
-  //       console.error("failed to save temp order", err);
-  //     }
-
-  //     const params = new URLSearchParams({
-  //       qty: String(qty),
-  //       total: String(total),
-  //     });
-  //     router.push(`/checkout/payment?${params.toString()}`);
-  //   }
-
-  // In your handleProceedToPayment function, replace with this:
-
   async function handleProceedToPayment() {
     // Run validation first
     const errs = validateForm();
@@ -365,12 +321,18 @@ export default function CheckoutPage() {
       console.log("✅ Order created successfully:", result.orderId);
 
       // Save the temp order locally too (with orderId from server)
-      const orderWithId = { ...tempOrder, orderId: result.orderId };
+      // Save the temp order locally too (with orderId from server)
+      const orderWithId = {
+        ...tempOrder,
+        orderId: result.orderId,
+        paymentMethod: null, // Add payment method field
+        paymentStatus: "pending", // Add payment status field
+      };
       setSubmissionAttempts(0);
 
       try {
         localStorage.setItem("zarwa_temp_order", JSON.stringify(orderWithId));
-        console.log("✅ Order saved to localStorage");
+        console.log("✅ Order saved to localStorage:", orderWithId);
       } catch (err) {
         console.warn("Could not save temp order to localStorage", err);
       }

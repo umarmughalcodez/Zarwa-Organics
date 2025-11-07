@@ -55,6 +55,7 @@ model Order {
   paymentMethod     String?     @map("payment_method")
   paymentStatus     String      @default("pending") @map("payment_status")
   securityDeposit   Int         @default(0) @map("security_deposit")
+  // deliveryCharges   Int?        @default(200) @map("delivery_charges")
   paymentScreenshot String?     @map("payment_screenshot")
   status            String      @default("pending")
   createdAt         DateTime    @default(now()) @map("created_at")
