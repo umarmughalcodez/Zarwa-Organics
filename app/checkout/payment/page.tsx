@@ -41,7 +41,12 @@ export default function PaymentPage() {
   const securityDeposit = calculateSecurityDeposit(totalAmount);
 
   const deliveryCharges = orderData?.deliveryCharges || 0;
-  const remainingAmount = totalAmount - securityDeposit;
+  const totalWithDelivery = totalAmount + deliveryCharges;
+  const codTotalAmount = totalAmount + deliveryCharges; // This includes delivery for COD
+
+  // COD remaining amount
+  // COD remaining amount (should include delivery charges)
+  const remainingAmount = totalAmount + deliveryCharges - securityDeposit;
 
   // Add this function to update localStorage with payment method
   const updateOrderWithPaymentMethod = (paymentMethod: string) => {
@@ -244,7 +249,7 @@ export default function PaymentPage() {
         "Pay Rs. " +
         securityDeposit +
         " now, Rs. " +
-        remainingAmount +
+        (totalAmount + deliveryCharges - securityDeposit) +
         " on delivery",
       account: "Security Deposit Required",
       type: "deposit",
@@ -324,7 +329,7 @@ export default function PaymentPage() {
                         </span>
                         <span className="font-mono">{method.number}</span>
                       </div>
-                      {method.deliveryInfo && (
+                      {/* {method.deliveryInfo && (
                         <div className="flex justify-between">
                           <span className="font-semibold">Delivery:</span>
                           <span
@@ -335,7 +340,7 @@ export default function PaymentPage() {
                             {method.deliveryInfo}
                           </span>
                         </div>
-                      )}
+                      )} */}
 
                       <div className="flex justify-between">
                         <span className="font-semibold">Amount to Pay:</span>
@@ -524,10 +529,10 @@ export default function PaymentPage() {
                   Security Deposit Required
                 </Label>
 
-                <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 mb-3">
+                <div className="border border-green-200 rounded-lg p-3 mb-3">
                   <div className="flex items-start gap-2">
-                    <span className="text-amber-600 mt-0.5">🔒</span>
-                    <div className="text-sm text-amber-800">
+                    <span className="text-[#8BBE67] mt-0.5">🔒</span>
+                    <div className="text-sm text-[#8BBE67]">
                       <p className="font-medium">
                         Security Deposit: Rs. {securityDeposit}
                       </p>
@@ -581,10 +586,10 @@ export default function PaymentPage() {
                 {uploadedImageUrl && (
                   <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded-lg">
                     <div className="flex items-center gap-2 mb-2">
-                      <span className="text-green-600">✅</span>
-                      <p className="text-sm text-green-800 font-medium">
+                      {/* <span className="text-green-600">✅</span> */}
+                      {/* <p className="text-sm text-green-800 font-medium">
                         Deposit Received Successfully
-                      </p>
+                      </p> */}
                     </div>
                     <img
                       src={uploadedImageUrl}
@@ -592,7 +597,7 @@ export default function PaymentPage() {
                       className="mt-2 max-w-xs rounded-lg border-2 border-green-200 mx-auto"
                     />
                     <p className="text-xs text-green-600 text-center mt-2">
-                      Your order is now secured and confirmed
+                      Your order is now secured and confirmed!
                     </p>
                   </div>
                 )}
@@ -608,7 +613,7 @@ export default function PaymentPage() {
             )}
 
             {/* Confirm Order Button */}
-            <Button
+            {/* <Button
               onClick={handleConfirmOrder}
               disabled={
                 !selectedMethod ||
@@ -618,8 +623,8 @@ export default function PaymentPage() {
               }
               className="w-full bg-gradient-to-br from-[#8BBE67] to-[#6F8F58] text-white mt-6"
             >
-              {isUploading ? "Uploading..." : "Confirm Order"}
-            </Button>
+              {isUploading ? "Uploading..." : `Confirm Order`}
+            </Button> */}
           </CardContent>
         </Card>
 
@@ -634,7 +639,7 @@ export default function PaymentPage() {
                 <div className="flex items-center gap-4 mb-4">
                   <img
                     src="/images/img3.png"
-                    alt="Zarwa Hair Growth Oil"
+                    alt="Zarwa Hair Growth Oil (100ml)"
                     className="w-16 h-16 object-cover rounded"
                   />
                   <div>
@@ -646,8 +651,32 @@ export default function PaymentPage() {
                   </div>
                 </div>
 
-                {/* ADD DETAILED PAYMENT BREAKDOWN */}
-                <div className="border-t pt-4 space-y-2">
+                {/* Order & Customer Info */}
+                {/* <div className="border-t pt-4 space-y-3">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-600">Order ID:</span>
+                    <span className="font-mono">{orderId}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-600">Email:</span>
+                    <span>{orderData.user?.email}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-600">Shipping to:</span>
+                    <span className="text-right">
+                      {orderData.user?.address}
+                      <br />
+                      {orderData.user?.city}, {orderData.user?.province}
+                      <br />
+                      {orderData.user?.landmark &&
+                        `Near ${orderData.user.landmark}`}
+                      {orderData.user?.zip && ` • ${orderData.user.zip}`}
+                    </span>
+                  </div>
+                </div> */}
+
+                {/* Payment Breakdown */}
+                <div className="border-t pt-4 space-y-3">
                   <div className="flex justify-between text-sm">
                     <span>Subtotal:</span>
                     <span>Rs. {orderData.subtotal?.toLocaleString()}</span>
@@ -662,7 +691,6 @@ export default function PaymentPage() {
                     </div>
                   )}
 
-                  {/* ADD DELIVERY CHARGES BREAKDOWN */}
                   <div className="flex justify-between text-sm">
                     <span>Delivery Charges:</span>
                     <span
@@ -674,54 +702,91 @@ export default function PaymentPage() {
                     </span>
                   </div>
 
-                  <div className="flex justify-between font-semibold border-t pt-2">
-                    <span>Order Total:</span>
-                    <span>Rs. {totalAmount.toLocaleString()}</span>
-                  </div>
-
-                  {/* PAYMENT METHOD SPECIFIC BREAKDOWN */}
+                  {/* COD Payment Breakdown - Clear and Prominent */}
                   {selectedMethod === "cod" && (
-                    <div className="mt-3 p-3 bg-blue-50 rounded-lg space-y-2">
+                    <div className=" border border-green-200 rounded-lg p-3 space-y-2 mt-3">
+                      <div className="text-sm font-semibold text-[#8BBE67] text-center">
+                        💰 Cash on Delivery Payment Plan
+                      </div>
+
                       <div className="flex justify-between text-sm">
-                        <span>Security Deposit:</span>
-                        <span className="text-green-600">
-                          Rs. {securityDeposit}
+                        <span className="text-[#444]">
+                          Pay Now (Security Deposit):
+                        </span>
+                        <span className="font-bold text-[#8BBE67]">
+                          -Rs. {securityDeposit}
                         </span>
                       </div>
+
                       <div className="flex justify-between text-sm">
-                        <span>Pay on Delivery:</span>
-                        <span className="text-blue-600">
+                        <span className="text-[#444]">Pay on Delivery:</span>
+                        <span className="text-[#8BBE67]">
                           Rs. {remainingAmount.toLocaleString()}
                         </span>
+                      </div>
+
+                      <div className="border-t border-green-200 pt-2 mt-2">
+                        <div className="flex justify-between text-sm font-semibold">
+                          <span>Total Order Value:</span>
+                          <span>
+                            Rs.{" "}
+                            {(totalAmount + deliveryCharges).toLocaleString()}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="text-xs text-red-500 text-center mt-2">
+                        🔒 Security deposit will be deducted from your final
+                        payment
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Regular Total for non-COD methods */}
+                  {selectedMethod !== "cod" && (
+                    <div className="border-t pt-3">
+                      <div className="flex justify-between font-semibold">
+                        <span>Total Amount:</span>
+                        <span className="text-green-600">
+                          Rs. {(totalAmount + deliveryCharges).toLocaleString()}
+                        </span>
+                      </div>
+                      <div className="text-xs text-gray-500 text-center mt-1">
+                        Pay full amount now via{" "}
+                        {selectedMethod &&
+                          paymentMethods.find((m) => m.id === selectedMethod)
+                            ?.name}
                       </div>
                     </div>
                   )}
                 </div>
 
-                <div className="border-t pt-4 space-y-2">
-                  <div className="flex justify-between">
-                    <span>Order ID:</span>
-                    <span className="text-sm font-mono">{orderId}</span>
+                <Button
+                  onClick={handleConfirmOrder}
+                  disabled={
+                    !selectedMethod ||
+                    (selectedMethod !== "cod" && !uploadedImageUrl) ||
+                    (selectedMethod === "cod" && !uploadedImageUrl) ||
+                    isUploading
+                  }
+                  className="w-full bg-gradient-to-br from-[#8BBE67] to-[#6F8F58] text-white mt-6"
+                >
+                  {isUploading ? "Uploading..." : `Confirm Order`}
+                </Button>
+
+                {/* Final Summary for COD */}
+                {/* {selectedMethod === "cod" && (
+                  <div className="bg-green-50 border border-green-200 rounded-lg p-3 mt-4">
+                    <div className="flex justify-between font-semibold text-green-800">
+                      <span>Due Now:</span>
+                      <span>Rs. {securityDeposit}</span>
+                    </div>
+                    <div className="text-xs text-green-600 text-center mt-1">
+                      Upload payment proof for Rs. {securityDeposit} to confirm
+                      your order
+                    </div>
                   </div>
-                  <div className="flex justify-between">
-                    <span>Email:</span>
-                    <span className="text-sm">{orderData.user?.email}</span>
-                  </div>
-                  {/* ADD ADDRESS PREVIEW */}
-                  <div className="flex justify-between">
-                    <span>Shipping to:</span>
-                    <span className="text-sm text-right">
-                      {orderData.user?.address}
-                      <br />
-                      {orderData.user?.city}, {orderData.user?.province}
-                      <br />
-                      {orderData.user?.landmark &&
-                        `Near ${orderData.user.landmark}`}
-                      {orderData.user?.zip && ` • ${orderData.user.zip}`}
-                    </span>
-                  </div>
-                  {/* END OF ADDRESS PREVIEW */}
-                </div>
+                )} */}
               </>
             ) : (
               <div className="text-center py-8">

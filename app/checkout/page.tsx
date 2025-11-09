@@ -18,7 +18,7 @@ import toast from "react-hot-toast";
 
 const MIN_QUANTITY = 1;
 const MAX_QUANTITY = 20;
-const BASE_PRICE = 699;
+const BASE_PRICE = 749;
 
 function getBulkDiscountPercent(qty: number) {
   if (qty >= 8) return 15;
@@ -55,6 +55,7 @@ export default function CheckoutPage() {
   const [couponPct, setCouponPct] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionAttempts, setSubmissionAttempts] = useState(0);
+  const [deliveryCharges, setDeliveryCharges] = useState(0);
 
   // ADD THIS FUNCTION AFTER THE CONSTANTS (around line 20):
   function calculateSecurityDeposit(totalAmount: number): number {
@@ -66,29 +67,13 @@ export default function CheckoutPage() {
 
   const [errors, setErrors] = useState<string[]>([]);
 
-  // Add this inside your CheckoutPage component, before the return statement
-  // const [debugInfo, setDebugInfo] = useState<any>(null);
-
-  // const testBackend = async () => {
-  //   try {
-  //     console.log("🧪 Testing backend connection...");
-  //     const res = await fetch("/api/debug");
-  //     const data = await res.json();
-  //     setDebugInfo(data);
-  //     console.log("Backend test result:", data);
-  //   } catch (error) {
-  //     console.error("Backend test failed:", error);
-  //   }
-  // };
-
-  // Call this on component mount
-  // useEffect(() => {
-  //   if (process.env.NODE_ENV === "development") {
-  //     testBackend();
-  //   }
-  // }, []);
-
   useEffect(() => {
+    if (qty > 3) {
+      setDeliveryCharges(0);
+    } else {
+      setDeliveryCharges(200);
+    }
+
     setBulkDiscountPct(getBulkDiscountPercent(qty));
   }, [qty]);
 
@@ -98,6 +83,7 @@ export default function CheckoutPage() {
     (subtotal - bulkDiscountAmount) * (couponPct / 100)
   );
   const total = subtotal - bulkDiscountAmount - couponDiscountAmount;
+  const totalWithDelivery = total + deliveryCharges;
   const totalSavings = bulkDiscountAmount + couponDiscountAmount;
 
   // This function double-checks all calculations are correct
@@ -131,6 +117,14 @@ export default function CheckoutPage() {
 
     return true;
   }
+
+  useEffect(() => {
+    // Delivery charges based on total
+    if (total < 1000) setDeliveryCharges(200);
+    else if (total < 2000) setDeliveryCharges(300);
+    else if (total < 4000) setDeliveryCharges(500);
+    else setDeliveryCharges(800);
+  }, [total]);
 
   // This function checks if a phone number is valid Pakistani number
   function validatePakistanPhone(phone: string): boolean {
@@ -276,7 +270,7 @@ export default function CheckoutPage() {
       items: [
         {
           productId: "zarwa-hair-growth-oil",
-          name: "Zarwa Hair Growth Oil",
+          name: "Zarwa Hair Growth Oil (100ml)",
           unitPrice: BASE_PRICE,
           qty,
           bulkDiscountPct,
@@ -287,6 +281,8 @@ export default function CheckoutPage() {
       subtotal,
       totalSavings,
       total,
+      deliveryCharges,
+
       createdAt: new Date().toISOString(),
     } as const;
 
@@ -553,15 +549,15 @@ export default function CheckoutPage() {
               </div>
             )} */}
 
-            <div className="mt-6 flex justify-end">
+            {/* <div className="mt-6 flex justify-end">
               <Button
                 className="bg-gradient-to-br from-[#8BBE67] to-[#6F8F58] text-white"
                 onClick={handleProceedToPayment}
                 disabled={isSubmitting}
               >
-                {isSubmitting ? "Saving..." : "Proceed to Payment"}
+                {isSubmitting ? "Saving..." : `Proceed to Payment - (${totalWithDelivery.toLocaleString()})`}
               </Button>
-            </div>
+            </div> */}
           </CardContent>
         </Card>
 
@@ -600,10 +596,19 @@ export default function CheckoutPage() {
                   - Rs. {couponDiscountAmount}
                 </div>
               </div>
+              <div className="flex justify-between mt-2">
+                <div>Delivery Charges</div>
+                <span className={deliveryCharges === 0 ? "text-[#8BBE67]" : ""}>
+                  {deliveryCharges === 0 ? "Free" : `Rs. ${deliveryCharges}`}
+                </span>
+
+                {/* <div>Rs. {deliveryCharges}</div> */}
+              </div>
 
               <div className="flex justify-between mt-4 text-lg font-semibold text-[#8BBE67]">
                 <div>Total</div>
-                <div>Rs. {total}</div>
+                <div>Rs. {totalWithDelivery.toLocaleString()}</div>
+                {/* <div>Rs. {total}</div> */}
               </div>
 
               <div className="mt-2 text-sm text-[#8BBE67]">
@@ -615,6 +620,15 @@ export default function CheckoutPage() {
                 {calculateSecurityDeposit(total)} is required on the next page
                 to secure your order.
               </div>
+            </div>
+            <div className="mt-6 flex">
+              <Button
+                className="bg-gradient-to-br from-[#8BBE67] to-[#6F8F58] text-white"
+                onClick={handleProceedToPayment}
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Saving..." : `Proceed to Payment`}
+              </Button>
             </div>
           </CardContent>
         </Card>
