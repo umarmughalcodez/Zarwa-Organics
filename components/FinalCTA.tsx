@@ -5,8 +5,10 @@ import { motion } from "framer-motion";
 import { fadeRight, fadeUp } from "@/lib/animations";
 import { Button } from "./ui/button";
 import { FaArrowRight } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 const FinalCTA = () => {
+  const router = useRouter();
   return (
     <div
       id="TransformationCTA"
@@ -77,6 +79,7 @@ const FinalCTA = () => {
               iconPlacement="right"
               icon={FaArrowRight}
               className="px-8 py-3 rounded-full bg-gradient-to-br from-[#8BBE67] to-[#6F8F58] text-white text-sm font-medium shadow-md hover:shadow-lg hover:scale-[1.03] transition-transform"
+              onClick={() => router.push("/checkout")}
             >
               Order Your Hair Growth Oil Now
             </Button>

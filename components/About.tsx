@@ -1,8 +1,10 @@
 "use client";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 export default function About() {
+  const router = useRouter();
   return (
     <section
       id="about"
@@ -67,6 +69,7 @@ export default function About() {
             <a
               href="#shop"
               className="bg-gradient-to-br from-[#8BBE67] to-[#6F8F58] text-white font-medium rounded-full px-8 py-3 text-lg shadow-md hover:shadow-lg hover:scale-[1.03] transition-transform duration-300"
+              onClick={() => router.push("/shop")}
             >
               Shop Hair Growth Oil
             </a>

@@ -7,6 +7,9 @@ import ProductHighlights from "@/components/ProductHighlights";
 import TestimonialsSection from "@/components/Testimonials";
 import React from "react";
 import Transformation from "@/components/Transformation";
+import FAQ from "@/components/FAQ";
+import About from "@/components/About";
+import FinalCTA from "@/components/FinalCTA";
 
 const Shop = () => {
   return (
@@ -14,10 +17,12 @@ const Shop = () => {
       <ProductSection />
       <Ingredients />
       <Transformation />
-      <TestimonialsSection />
       <HowToUse />
-      <PaymentMethods />
+      <TestimonialsSection />
       <ProductHighlights />
+      <PaymentMethods />
+      <FAQ />
+      <FinalCTA />
     </div>
   );
 };

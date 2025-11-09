@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 const slides = [
   {
@@ -32,6 +33,7 @@ const slides = [
 
 export default function HeroImages() {
   const [index, setIndex] = useState(0);
+  const router = useRouter();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -95,6 +97,7 @@ export default function HeroImages() {
               <a
                 href="#shop"
                 className="px-8 py-3 rounded-full bg-gradient-to-br from-[#8BBE67] to-[#6F8F58]  text-white text-sm font-medium shadow-md hover:shadow-lg hover:scale-[1.03] transition-transform"
+                onClick={() => router.push("/shop")}
               >
                 Shop Now
               </a>

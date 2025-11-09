@@ -26,7 +26,7 @@ export default function Footer() {
               alt="Logo"
               width={90}
               height={90}
-              className="mx-auto"
+              className="mx-auto cursor-pointer"
               onClick={() => router.push("/#hero")}
             />
           </div>
@@ -44,10 +44,18 @@ export default function Footer() {
           <ul className="space-y-2">
             <li>
               <a
-                href="#hero"
+                href="/#hero"
                 className="text-gray-700 hover:text-[#8BBE67] transition"
               >
                 Home
+              </a>
+            </li>
+            <li>
+              <a
+                href="/track-order"
+                className="text-gray-700 hover:text-[#8BBE67] transition"
+              >
+                Track Order
               </a>
             </li>
             <li>
@@ -68,7 +76,7 @@ export default function Footer() {
             </li>
             <li>
               <a
-                href="#shop"
+                href="/shop"
                 className="text-gray-700 hover:text-[#8BBE67] transition"
               >
                 Shop
@@ -87,32 +95,35 @@ export default function Footer() {
             onClick={() => router.push("mailto:hello@zarwaorganics.com")}
           >
             <span className="text-[#8BBE67] font-semibold">Email:</span>
-            &nbsp;hello@zarwaorganics.com
+            &nbsp;support@zarwaorganics.com
           </p>
           <p
             className="text-gray-700"
             onClick={() => router.push("tel:03001234567")}
           >
             <span className="text-[#8BBE67] font-semibold">Whatsapp:</span>
-            &nbsp;+92 300 1234567
+            &nbsp;0314 3988998
           </p>
 
           {/* Social icons */}
           <div className="flex justify-center md:justify-start space-x-5 mt-4">
             <a
-              href="#"
+              href="https://wa.me/923143988998"
               className="text-[#8BBE67] hover:scale-110 transition-transform"
+              target="_blank"
             >
               <FaWhatsapp size={22} />
             </a>
             <a
-              href="#"
+              href="https://instagram.com/zarwaorganics"
               className="text-[#8BBE67] hover:scale-110 transition-transform"
+              target="_blank"
             >
               <FaInstagram size={22} />
             </a>
             <a
-              href="#"
+              href="https://tiktok.com/@zarwaorganics"
+              target="_blank"
               className="text-[#8BBE67] hover:scale-110 transition-transform"
             >
               <FaTiktok size={22} />

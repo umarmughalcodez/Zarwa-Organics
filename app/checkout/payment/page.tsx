@@ -14,21 +14,27 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import toast from "react-hot-toast";
+import { Order } from "@/lib/types";
 
 export default function PaymentPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [orderData, setOrderData] = useState<any>(null);
+  const [orderData, setOrderData] = useState<Order | null>(null);
   const [selectedMethod, setSelectedMethod] = useState<string>("");
   const [screenshot, setScreenshot] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadedImageUrl, setUploadedImageUrl] = useState<string>("");
 
   const orderId = searchParams?.get("orderId");
-  const qty = searchParams?.get("qty");
-  const total = searchParams?.get("total");
-  const totalAmount = total ? parseInt(total) : 0;
+  // const qty = searchParams?.get("qty");
+  // const total = searchParams?.get("total");
+  // const totalAmount = total ? parseInt(total) : 0;
+  const qtyParam = searchParams?.get("qty");
+  const totalParam = searchParams?.get("total");
+
+  const qty = qtyParam ? parseInt(qtyParam) : 1;
+  const totalAmount = totalParam ? parseInt(totalParam) : 0;
 
   // Calculate security deposit based on order total
   const calculateSecurityDeposit = (amount: number) => {
@@ -40,7 +46,13 @@ export default function PaymentPage() {
 
   const securityDeposit = calculateSecurityDeposit(totalAmount);
 
-  const deliveryCharges = orderData?.deliveryCharges || 0;
+  const getDeliveryCharges = (qty: number, total: number) => {
+    if (qty >= 3 || total >= 2000) return 0;
+    return 200;
+  };
+
+  // const deliveryCharges = orderData?.deliveryCharges || 0;
+  const deliveryCharges = getDeliveryCharges(qty, totalAmount);
   const totalWithDelivery = totalAmount + deliveryCharges;
   const codTotalAmount = totalAmount + deliveryCharges; // This includes delivery for COD
 
@@ -81,11 +93,11 @@ export default function PaymentPage() {
     }
 
     // Validate required parameters
-    if (!orderId || !total) {
+    if (!orderId || !totalParam) {
       toast.error("Invalid order details. Please start over.");
       router.push("/checkout");
     }
-  }, [orderId, total, router]);
+  }, [orderId, totalParam, router]);
 
   // Update localStorage when payment method changes
   useEffect(() => {
@@ -181,6 +193,8 @@ export default function PaymentPage() {
           "Order confirmed! We will verify your payment and contact you soon."
         );
 
+        //sending email
+
         // Update localStorage with final payment details
         try {
           const savedOrder = localStorage.getItem("zarwa_temp_order");
@@ -203,6 +217,35 @@ export default function PaymentPage() {
             );
             console.log("✅ Final order saved to localStorage:", finalOrder);
           }
+
+          const finalOrder = {
+            ...orderData,
+            paymentMethod: selectedMethod,
+            paymentStatus:
+              selectedMethod === "cod"
+                ? "pending_deposit"
+                : "pending_verification",
+            securityDeposit:
+              selectedMethod === "cod" ? securityDeposit : totalAmount,
+            paymentScreenshot: uploadedImageUrl,
+          };
+
+          const notifyResponse = await fetch("/api/order/notify", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              order: finalOrder,
+              customerEmail: orderData?.user.email,
+              savedOrder: savedOrder,
+            }),
+          });
+
+          const notifyResult = await notifyResponse.json();
+          console.log("Notify API result:", notifyResult);
+
+          if (!notifyResult.success) {
+            toast.error("Failed to send notification. Please check later.");
+          }
         } catch (error) {
           console.error("Failed to update localStorage:", error);
         }
@@ -214,7 +257,7 @@ export default function PaymentPage() {
       } else {
         throw new Error(result.error);
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error("Order confirmation failed:", error);
       toast.error("Failed to confirm order. Please try again.");
     }
@@ -225,21 +268,21 @@ export default function PaymentPage() {
       id: "jazzcash",
       name: "JazzCash",
       number: "0325-4307806",
-      account: "Zarwa Organic Store",
+      account: "Qudsai Asif",
       type: "full",
     },
     {
       id: "easypaisa",
       name: "EasyPaisa",
       number: "0325-4307806",
-      account: "Zarwa Organic Store",
+      account: "Qudsia Asif",
       type: "full",
     },
     {
       id: "bank",
       name: "Bank Transfer",
-      number: "UBL Account # 1234-5678901234",
-      account: "Zarwa Organic Store",
+      number: "Nayapay Account # 0333-4142730",
+      account: "Qudsia Asif",
       type: "full",
     },
     {
@@ -260,7 +303,7 @@ export default function PaymentPage() {
     },
   ];
 
-  if (!orderId || !total) {
+  if (!orderId || !totalParam) {
     return (
       <div className="max-w-2xl mx-auto p-6 mt-30 text-center">
         <h1 className="text-2xl font-bold text-red-600">Invalid Order</h1>
@@ -529,7 +572,7 @@ export default function PaymentPage() {
                   Security Deposit Required
                 </Label>
 
-                <div className="border border-green-200 rounded-lg p-3 mb-3">
+                <div className="bg-gray-50 border border-green-200 rounded-lg p-3 mb-3">
                   <div className="flex items-start gap-2">
                     <span className="text-[#8BBE67] mt-0.5">🔒</span>
                     <div className="text-sm text-[#8BBE67]">

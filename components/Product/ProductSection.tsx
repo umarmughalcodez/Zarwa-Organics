@@ -7,6 +7,7 @@ import { fadeUp, fadeRight } from "@/lib/animations";
 import QuantitySelector from "./QuantitySelector";
 import BulkDiscountSelector from "./BulkDiscountSelector";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 export default function ProductSection() {
   const images = [
@@ -91,8 +92,10 @@ export default function ProductSection() {
 
         {/* Price */}
         <p className="text-2xl font-bold text-[#8BBE67] mb-2">
-          Rs. 699{" "}
-          <span className="text-base text-[#6F8F58] font-normal">/ bottle</span>
+          Rs. 749{" "}
+          <span className="text-base text-[#8BBE67] font-normal">
+            / bottle (100ml)
+          </span>
         </p>
 
         {/* Quantity Selector */}
@@ -110,6 +113,11 @@ export default function ProductSection() {
           onClick={() => {
             // Validate quantity before redirect
             const validQuantity = Math.max(1, Math.min(20, quantity));
+            if (quantity > 20) {
+              toast.error(
+                "We're sorry, you can order max 20 bottles due to low stock"
+              );
+            }
             router.push(`/checkout?qty=${validQuantity}`);
           }}
         >

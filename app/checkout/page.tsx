@@ -21,9 +21,9 @@ const MAX_QUANTITY = 20;
 const BASE_PRICE = 749;
 
 function getBulkDiscountPercent(qty: number) {
-  if (qty >= 8) return 15;
-  if (qty >= 5) return 10;
-  if (qty >= 3) return 5;
+  if (qty >= 8) return 8;
+  if (qty >= 5) return 5;
+  if (qty >= 3) return 3;
   return 0;
 }
 
@@ -58,17 +58,17 @@ export default function CheckoutPage() {
   const [deliveryCharges, setDeliveryCharges] = useState(0);
 
   // ADD THIS FUNCTION AFTER THE CONSTANTS (around line 20):
-  function calculateSecurityDeposit(totalAmount: number): number {
-    if (totalAmount < 1000) return 150;
-    if (totalAmount < 2000) return 300;
-    if (totalAmount < 4000) return 500;
-    return 800; // for 5000 and above
-  }
+  // function calculateSecurityDeposit(totalAmount: number): number {
+  //   if (totalAmount < 1000) return 100;
+  //   if (totalAmount < 2000) return 250;
+  //   if (totalAmount < 4000) return 500;
+  //   return 800; // for 5000 and above
+  // }
 
   const [errors, setErrors] = useState<string[]>([]);
 
   useEffect(() => {
-    if (qty > 3) {
+    if (qty >= 3 || total >= 2000) {
       setDeliveryCharges(0);
     } else {
       setDeliveryCharges(200);
@@ -118,13 +118,13 @@ export default function CheckoutPage() {
     return true;
   }
 
-  useEffect(() => {
-    // Delivery charges based on total
-    if (total < 1000) setDeliveryCharges(200);
-    else if (total < 2000) setDeliveryCharges(300);
-    else if (total < 4000) setDeliveryCharges(500);
-    else setDeliveryCharges(800);
-  }, [total]);
+  // useEffect(() => {
+  //   // Delivery charges based on total
+  //   if (total < 1000) setDeliveryCharges(200);
+  //   else if (total < 2000) setDeliveryCharges(300);
+  //   else if (total < 4000) setDeliveryCharges(500);
+  //   else setDeliveryCharges(800);
+  // }, [total]);
 
   // This function checks if a phone number is valid Pakistani number
   function validatePakistanPhone(phone: string): boolean {
@@ -183,7 +183,7 @@ export default function CheckoutPage() {
     const code = coupon.trim().toUpperCase();
     if (!code) return;
 
-    if (code === "ZARWA10") {
+    if (code === "WELCOME10") {
       setCouponPct(10);
       setCouponApplied(true);
     } else if (code === "FIRST50") {
@@ -348,13 +348,20 @@ export default function CheckoutPage() {
         );
         router.push(`/checkout/payment?${params.toString()}`);
       }, 400);
-    } catch (err: any) {
+    } catch (err) {
       console.error("❌ Network / unexpected error saving order:", err);
       toast.error(
         "Network error — please check your connection and try again."
       );
       setIsSubmitting(false);
     }
+  }
+
+  function calculateSecurityDeposit(totalAmount: number): number {
+    if (totalAmount < 1000) return 150;
+    if (totalAmount < 2000) return 300;
+    if (totalAmount < 4000) return 500;
+    return 800;
   }
 
   return (

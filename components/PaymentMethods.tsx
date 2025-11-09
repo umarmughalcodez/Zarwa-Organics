@@ -2,14 +2,10 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import {
-  FaMoneyBillWave,
-  FaUniversity,
-  FaMobileAlt,
-  FaRegCreditCard,
-} from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 export default function PaymentMethods() {
+  const router = useRouter();
   return (
     <section className="relative bg-[#ffffff] text-[#444] py-16 px-6 overflow-hidden">
       {/* Soft organic shimmer */}
@@ -128,6 +124,7 @@ export default function PaymentMethods() {
           <a
             href="#shop"
             className="inline-block bg-gradient-to-br from-[#8BBE67] to-[#6F8F58] text-[#ffffff] font-semibold rounded-full px-10 py-4 text-md shadow-md hover:shadow-lg hover:scale-[1.04] transition-all duration-300"
+            onClick={() => router.push("/shop")}
           >
             Order Now — Pay the Way You Like
           </a>

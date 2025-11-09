@@ -2,8 +2,10 @@
 
 import { motion } from "framer-motion";
 import { ShieldCheck, Heart, Sprout } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function ProductHighlights() {
+  const router = useRouter();
   return (
     <section className="relative bg-[#4F6F52] text-white py-24 px-6 overflow-hidden">
       {/* Soft golden background shimmer */}
@@ -96,7 +98,8 @@ export default function ProductHighlights() {
         >
           <a
             href="#shop"
-            className="inline-block bg-[#ffffff] text-[#4C6B43] font-semibold py-3 px-10 rounded-full shadow-lg hover:scale-105 hover:shadow-[#C5A45A]/40 transition-all duration-300"
+            className="inline-block bg-[#ffffff] text-[#4C6B43] font-semibold py-3 px-10 rounded-full shadow-lg hover:scale-105 hover:shadow-[#ffffff]/40 transition-all duration-300"
+            onClick={() => router.push("/shop")}
           >
             Shop with Confidence
           </a>

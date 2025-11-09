@@ -19,7 +19,7 @@ export default function TestimonialsSection() {
       id: 2,
       name: "Sara",
       title: "Lahore",
-      text: "Zarwa oil reminds me of my dadi’s natural hair remedies — except it’s lighter, non-sticky, and beautifully fragrant. My hair feels alive again!",
+      text: "Zarwa's oil reminds me of my dadi’s natural hair remedies — except it’s lighter, non-sticky, and beautifully fragrant. My hair feels alive again!",
       image: "/images/test2.webp",
     },
     {
@@ -33,7 +33,7 @@ export default function TestimonialsSection() {
       id: 4,
       name: "Mariam",
       title: "Faisalabad",
-      text: "After pregnancy, my hair became dull and thin. Zarwa helped me regain the shine and strength I had lost. Truly an honest product!",
+      text: "My hair became dull and thin. This oil helped me regain the shine and strength I had lost. Truly an honest product!",
       image: "/images/test4.webp",
     },
     {

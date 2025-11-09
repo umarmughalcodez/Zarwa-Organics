@@ -100,6 +100,7 @@ const Transformation = () => {
             iconPlacement="right"
             icon={FaArrowRight}
             className="px-8 py-3 rounded-full bg-gradient-to-br from-[#8BBE67] to-[#6F8F58] text-white text-sm font-medium shadow-md hover:shadow-lg hover:scale-[1.03] transition-transform text-center"
+            onClick={() => router.push("/shop")}
           >
             Experience the Transformation
           </Button>

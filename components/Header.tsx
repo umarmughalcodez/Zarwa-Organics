@@ -19,6 +19,8 @@ export default function Header() {
     "✨ Free delivery on all orders above Rs. 2000",
     "🔥 Get 10% off your first order — use code WELCOME10",
     "☘️ All-natural ingredients, crafted with care.",
+    "✨ Free delivery on ordering 3 or more bottles!",
+
     "🚚 Fast delivery all over Pakistan!",
   ];
 
@@ -42,9 +44,11 @@ export default function Header() {
   const navLinks = [
     { name: "Home", path: "/" },
     { name: "Shop", path: "/shop" },
-    { name: "About", path: "/about" },
-    { name: "FAQ", path: "/faq" },
-    { name: "Contact", path: "/contact" },
+    { name: "Track Order", path: "/track-order" },
+
+    { name: "About", path: "#about" },
+    { name: "FAQ", path: "#faq" },
+    { name: "Contact", path: "https://wa.me/923143988998" },
   ];
 
   return (
@@ -76,10 +80,10 @@ export default function Header() {
         <Image
           src={"/images/logo.png"}
           alt="Auro"
-          // fill
+          onClick={() => router.push("/")}
           width={100}
           height={80}
-          className="w-[80px] h-auto md:w-[100px]" // 👈 responsive adjustment
+          className="w-[80px] h-auto md:w-[100px] cursor-pointer" // 👈 responsive adjustment
         />
 
         {/* Desktop Menu */}
@@ -101,7 +105,8 @@ export default function Header() {
           effect={"expandIcon"}
           iconPlacement="right"
           icon={MdOutlineShoppingCart}
-          className="bg-gradient-to-br from-[#8BBE67] to-[#6F8F58] rounded-3xl hidden md:flex items-center font-semibold"
+          onClick={() => router.push("/shop")}
+          className="bg-gradient-to-br from-[#8BBE67] to-[#6F8F58] rounded-3xl hidden md:flex items-center font-semibold cursor-pointer"
         >
           Order Now
         </Button>
@@ -117,7 +122,10 @@ export default function Header() {
         {/* Mobile Dropdown */}
         {menuOpen && (
           <div className="absolute top-full left-0 w-full bg-white shadow-md md:hidden animate-slideUp">
-            <ul className="flex flex-col items-center gap-4 py-6 text-gray-800 font-medium">
+            <ul
+              className="flex flex-col items-center gap-4 py-6 text-gray-800 font-medium"
+              onClick={() => setMenuOpen(!menuOpen)}
+            >
               {navLinks.map((link, i) => (
                 <li key={i}>
                   <Button
@@ -133,7 +141,10 @@ export default function Header() {
                   </Button>
                 </li>
               ))}
-              <Button className="bg-gradient-to-br from-[#8BBE67] to-[#6F8F58] rounded-3xl font-semibold">
+              <Button
+                className="bg-gradient-to-br from-[#8BBE67] to-[#6F8F58] rounded-3xl font-semibold"
+                onClick={() => router.push("/shop")}
+              >
                 Order Now
               </Button>
             </ul>
