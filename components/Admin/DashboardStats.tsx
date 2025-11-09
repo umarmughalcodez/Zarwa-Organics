@@ -38,14 +38,14 @@ export function DashboardStats() {
 
   if (loading) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
         {[...Array(4)].map((_, i) => (
           <div
             key={i}
-            className="bg-white p-6 rounded-lg border border-gray-200 animate-pulse"
+            className="bg-white p-4 lg:p-6 rounded-lg border border-gray-200 animate-pulse"
           >
-            <div className="h-4 bg-gray-200 rounded w-1/2 mb-2"></div>
-            <div className="h-8 bg-gray-200 rounded w-3/4"></div>
+            <div className="h-3 lg:h-4 bg-gray-200 rounded w-1/2 mb-2 lg:mb-3"></div>
+            <div className="h-6 lg:h-8 bg-gray-200 rounded w-3/4"></div>
           </div>
         ))}
       </div>
@@ -55,50 +55,72 @@ export function DashboardStats() {
   const statCards = [
     {
       title: "Total Orders",
-      value: stats.totalOrders,
+      value: stats.totalOrders.toLocaleString(),
       icon: ShoppingCart,
-      color: "bg-blue-500",
+      color: "text-blue-600",
+      bgColor: "bg-blue-50",
     },
     {
       title: "Pending Orders",
-      value: stats.pendingOrders,
+      value: stats.pendingOrders.toLocaleString(),
       icon: Package,
-      color: "bg-yellow-500",
+      color: "text-yellow-600",
+      bgColor: "bg-yellow-50",
     },
     {
       title: "Total Revenue",
       value: `Rs. ${stats.totalRevenue.toLocaleString()}`,
       icon: DollarSign,
-      color: "bg-green-500",
+      color: "text-green-600",
+      bgColor: "bg-green-50",
     },
     {
       title: "Total Customers",
-      value: stats.totalCustomers,
+      value: stats.totalCustomers.toLocaleString(),
       icon: Users,
-      color: "bg-purple-500",
+      color: "text-purple-600",
+      bgColor: "bg-purple-50",
     },
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
       {statCards.map((stat) => {
         const Icon = stat.icon;
         return (
           <div
             key={stat.title}
-            className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm"
+            className="bg-white p-4 lg:p-6 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200"
           >
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">
+              <div className="flex-1 min-w-0">
+                <p className="text-xs lg:text-sm font-medium text-gray-600 truncate">
                   {stat.title}
                 </p>
-                <p className="text-2xl font-bold text-gray-900 mt-1">
+                <p className="text-xl lg:text-2xl font-bold text-gray-900 mt-1 lg:mt-2 truncate">
                   {stat.value}
                 </p>
               </div>
-              <div className={`p-3 rounded-full ${stat.color} bg-[#8BBE67]`}>
-                <Icon className="w-6 h-6 text-white" />
+              <div
+                className={`p-2 lg:p-3 rounded-full ${stat.bgColor} flex-shrink-0 ml-3`}
+              >
+                <Icon className={`w-4 h-4 lg:w-6 lg:h-6 ${stat.color}`} />
+              </div>
+            </div>
+
+            {/* Mobile-only subtle indicator */}
+            <div className="lg:hidden mt-2">
+              <div className={`h-1 rounded-full ${stat.bgColor} w-full`}>
+                <div
+                  className={`h-1 rounded-full ${stat.color.replace(
+                    "text-",
+                    "bg-"
+                  )} transition-all duration-1000`}
+                  style={{
+                    width: "100%",
+                    opacity: 0.7,
+                  }}
+                />
               </div>
             </div>
           </div>

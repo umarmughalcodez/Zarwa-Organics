@@ -137,7 +137,7 @@ export default function TrackOrderPage() {
       {
         status: "confirmed",
         label: "Order Confirmed",
-        description: "We're preparing your order",
+        description: "Your payment is verified & We're preparing your order",
         date: order.createdAt,
         completed: ["verified", "shipped", "delivered"].includes(order.status),
         icon: CheckCircle,
@@ -533,8 +533,8 @@ export default function TrackOrderPage() {
                 Need Help Tracking Your Order?
               </h3>
               <p className="text-gray-600 mb-4">
-                If you're having trouble finding your order, contact our support
-                team. Click the Whatsapp icon below to contact us.
+                If you're having any trouble regrading your order, contact our
+                support team. Click the Whatsapp icon below to contact us.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <Button

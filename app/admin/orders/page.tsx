@@ -90,25 +90,36 @@ export default function OrdersPage() {
   };
 
   return (
-    <div className="space-y-6 mt-40 px-8 p-4">
-      <div>
-        <h1 className="text-3xl font-bold text-gray-900">Orders Management</h1>
-        <p className="text-gray-600">Manage and track all customer orders</p>
+    <div className="space-y-4 lg:space-y-6 px-4 lg:px-6 py-4 lg:py-6 mt-40">
+      {/* Header Section */}
+      <div className="bg-white rounded-lg border border-gray-200 p-4 lg:p-6">
+        <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
+          Orders Management
+        </h1>
+        <p className="text-gray-600 text-sm lg:text-base">
+          Manage and track all customer orders
+        </p>
       </div>
 
-      <OrdersFilter
-        filters={filters}
-        onFilterChange={handleFilterChange}
-        onRefresh={fetchOrders}
-      />
+      {/* Filters Section */}
+      <div className="bg-white rounded-lg border border-gray-200">
+        <OrdersFilter
+          filters={filters}
+          onFilterChange={handleFilterChange}
+          onRefresh={fetchOrders}
+        />
+      </div>
 
-      <OrdersTable
-        orders={orders}
-        loading={loading}
-        pagination={pagination}
-        onPageChange={handlePageChange}
-        onStatusUpdate={handleStatusUpdate}
-      />
+      {/* Orders Table Section */}
+      <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+        <OrdersTable
+          orders={orders}
+          loading={loading}
+          pagination={pagination}
+          onPageChange={handlePageChange}
+          onStatusUpdate={handleStatusUpdate}
+        />
+      </div>
     </div>
   );
 }
