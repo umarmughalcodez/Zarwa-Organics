@@ -39,7 +39,6 @@ model Order {
   address   String
 
   province          String // NEW
-  // state             String?     // NEW
   landmark          String? // NEW
   zip               String?
   subtotal          Int
