@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -17,6 +17,7 @@ import {
   CreditCard,
   Search,
 } from "lucide-react";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
 interface Order {
   id: string;
@@ -40,6 +41,14 @@ interface Order {
 }
 
 export default function TrackOrderPage() {
+  return (
+    <Suspense fallback={<LoadingSpinner />}>
+      <TrackOrderContent />
+    </Suspense>
+  );
+}
+
+function TrackOrderContent() {
   const [orderId, setOrderId] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
