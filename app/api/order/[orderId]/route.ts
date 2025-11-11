@@ -1,27 +1,32 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { OrderResponse } from "@/lib/types";
 
-export async function GET({
-  params,
-}: {
-  params: Promise<{ orderId: string }>;
-}) {
+export async function GET(
+  request: NextRequest,
+  {
+    params,
+  }: {
+    params: Promise<{ orderId: string }>;
+  }
+) {
   try {
     const { orderId } = await params;
 
+    if (!orderId) {
+      return NextResponse.json({ error: "Order ID required" }, { status: 400 });
+    }
+
     const order = await prisma.order.findUnique({
       where: { id: orderId },
-      include: {
-        orderItems: true,
-      },
+      include: { orderItems: true },
     });
 
     if (!order) {
       return NextResponse.json({ error: "Order not found" }, { status: 404 });
     }
 
-    // Transform the data to match your frontend structure
-    const orderData = {
+    const orderData: OrderResponse = {
       user: {
         firstName: order.firstName,
         lastName: order.lastName,
@@ -30,17 +35,18 @@ export async function GET({
         city: order.city,
         address: order.address,
         province: order.province,
-        landmark: order.landmark,
-        zip: order.zip,
+        landmark: order.landmark || undefined,
+        zip: order.zip || undefined,
       },
       subtotal: order.subtotal,
       totalSavings: order.totalSavings,
       total: order.total,
-      couponCode: order.couponCode,
+      couponCode: order.couponCode || undefined,
       couponDiscount: order.couponDiscount,
       bulkDiscount: order.bulkDiscount,
-      paymentMethod: order.paymentMethod,
+      paymentMethod: order.paymentMethod || undefined,
       paymentStatus: order.paymentStatus,
+      orderItems: order.orderItems,
       orderId: order.id,
     };
 
