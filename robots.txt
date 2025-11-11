@@ -1,0 +1,24 @@
+# robots.txt for https://www.zarwaorganics.com
+
+User-agent: *
+Allow: /
+
+# Block sensitive and backend routes
+Disallow: /admin/
+Disallow: /api/
+Disallow: /_next/
+Disallow: /private/
+Disallow: /orders/
+Disallow: /cart/
+
+# Allow public pages like checkout/payment
+Allow: /checkout/payment
+
+# Allow images, scripts, and assets
+Allow: /images/
+Allow: /_next/static/
+Allow: /_next/image/
+
+# Sitemap and host
+Sitemap: https://www.zarwaorganics.com/sitemap.xml
+Host: https://www.zarwaorganics.com

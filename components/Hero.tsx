@@ -95,9 +95,8 @@ export default function HeroImages() {
 
             <div className="mt-8 flex flex-wrap justify-center sm:justify-start gap-4">
               <a
-                href="#shop"
+                href="/shop"
                 className="px-8 py-3 rounded-full bg-gradient-to-br from-[#8BBE67] to-[#6F8F58]  text-white text-sm font-medium shadow-md hover:shadow-lg hover:scale-[1.03] transition-transform"
-                onClick={() => router.push("/shop")}
               >
                 Shop Now
               </a>
