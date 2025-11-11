@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 
@@ -15,6 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import toast from "react-hot-toast";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
 const MIN_QUANTITY = 1;
 const MAX_QUANTITY = 20;
@@ -28,6 +29,14 @@ function getBulkDiscountPercent(qty: number) {
 }
 
 export default function CheckoutPage() {
+  return (
+    <Suspense fallback={<LoadingSpinner />}>
+      <CheckoutContent />
+    </Suspense>
+  );
+}
+
+function CheckoutContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -56,14 +65,6 @@ export default function CheckoutPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionAttempts, setSubmissionAttempts] = useState(0);
   const [deliveryCharges, setDeliveryCharges] = useState(0);
-
-  // ADD THIS FUNCTION AFTER THE CONSTANTS (around line 20):
-  // function calculateSecurityDeposit(totalAmount: number): number {
-  //   if (totalAmount < 1000) return 100;
-  //   if (totalAmount < 2000) return 250;
-  //   if (totalAmount < 4000) return 500;
-  //   return 800; // for 5000 and above
-  // }
 
   const [errors, setErrors] = useState<string[]>([]);
 

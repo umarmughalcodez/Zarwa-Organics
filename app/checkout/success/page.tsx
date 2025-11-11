@@ -1,7 +1,7 @@
 // app/checkout/success/page.tsx
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
@@ -19,8 +19,17 @@ import Confetti from "react-confetti";
 import toast from "react-hot-toast";
 import { downloadReceipt } from "@/lib/pdfGenerator";
 import { FaWhatsapp } from "react-icons/fa";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
 export default function SuccessPage() {
+  return (
+    <Suspense fallback={<LoadingSpinner />}>
+      <SuccessContent />
+    </Suspense>
+  );
+}
+
+function SuccessContent() {
   const searchParams = useSearchParams();
   const orderId = searchParams?.get("orderId");
   const router = useRouter();

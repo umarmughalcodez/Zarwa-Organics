@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -15,8 +15,17 @@ import {
 } from "@/components/ui/accordion";
 import toast from "react-hot-toast";
 import { Order } from "@/lib/types";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
 export default function PaymentPage() {
+  return (
+    <Suspense fallback={<LoadingSpinner />}>
+      <PaymentContent />
+    </Suspense>
+  );
+}
+
+function PaymentContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
