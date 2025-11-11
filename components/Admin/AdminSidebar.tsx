@@ -1,7 +1,6 @@
-// components/admin/AdminSidebar.tsx - Just update the logout function
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -14,7 +13,7 @@ import {
   X,
   LogOut,
 } from "lucide-react";
-import { logoutAdmin } from "@/lib/auth"; // Add this import
+import { logoutAdmin } from "@/lib/auth";
 
 const navigation = [
   { name: "Dashboard", href: "/admin", icon: BarChart3 },
@@ -27,6 +26,11 @@ const navigation = [
 export function AdminSidebar() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -41,12 +45,21 @@ export function AdminSidebar() {
     closeMobileMenu();
   };
 
+  // Prevent hydration mismatch
+  if (!isMounted) {
+    return (
+      <div className="w-64 bg-white border-r border-gray-200 hidden lg:flex flex-col">
+        {/* Simplified skeleton for SSR */}
+      </div>
+    );
+  }
+
   return (
     <>
       {/* Mobile Header */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
-        <div className="flex items-center justify-between p-4">
-          <h1 className="text-xl font-bold text-[#8BBE67]"> Admin</h1>
+      <div className="lg:hidden fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50 h-16">
+        <div className="flex items-center justify-between p-4 h-full">
+          <h1 className="text-xl font-bold text-[#8BBE67]">Admin</h1>
           <button
             onClick={toggleMobileMenu}
             className="p-2 rounded-md text-gray-600 hover:bg-gray-100 transition-colors"
@@ -77,7 +90,7 @@ export function AdminSidebar() {
         transform transition-transform duration-300 ease-in-out
         lg:transform-none lg:translate-x-0
         ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"}
-        flex flex-col
+        flex flex-col h-screen
       `}
       >
         {/* Desktop Header */}
@@ -98,7 +111,7 @@ export function AdminSidebar() {
         </div>
 
         {/* Navigation */}
-        <nav className="mt-6 lg:mt-0 flex-1">
+        <nav className="flex-1 overflow-y-auto py-4">
           {navigation.map((item) => {
             const Icon = item.icon;
             const isActive = pathname === item.href;
@@ -108,7 +121,7 @@ export function AdminSidebar() {
                 key={item.name}
                 href={item.href}
                 onClick={closeMobileMenu}
-                className={`flex items-center px-6 py-4 text-sm font-medium transition-colors ${
+                className={`flex items-center px-6 py-3 text-sm font-medium transition-colors mx-2 rounded-lg ${
                   isActive
                     ? "bg-[#8BBE67] text-white"
                     : "text-gray-600 hover:bg-gray-100"
@@ -122,25 +135,16 @@ export function AdminSidebar() {
         </nav>
 
         {/* Logout Button */}
-        <div className="p-6 border-t border-gray-200">
+        <div className="p-4 border-t border-gray-200">
           <button
             onClick={handleLogout}
-            className="flex items-center w-full px-3 py-3 text-sm font-medium text-gray-600 hover:bg-red-50 hover:text-red-600 transition-colors rounded-lg"
+            className="flex items-center w-full px-3 py-3 text-sm font-medium text-gray-600 hover:bg-red-50 hover:text-red-600 transition-colors rounded-lg mx-2"
           >
             <LogOut className="w-5 h-5 mr-3 flex-shrink-0" />
             <span className="truncate">Logout</span>
           </button>
         </div>
       </div>
-
-      {/* Mobile padding */}
-      <style jsx global>{`
-        @media (max-width: 1023px) {
-          main {
-            padding-top: 64px;
-          }
-        }
-      `}</style>
     </>
   );
 }
