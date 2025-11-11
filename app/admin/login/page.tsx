@@ -1,49 +1,66 @@
-// app/admin/layout.tsx
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { AdminSidebar } from "@/components/Admin/AdminSidebar";
-import { checkAdminAuth } from "@/lib/auth";
+import { FaLock } from "react-icons/fa";
 
-export default function AdminLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+export default function AdminLoginPage() {
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const router = useRouter();
 
-  useEffect(() => {
-    const authCheck = checkAdminAuth();
-    setIsAuthenticated(authCheck);
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD!;
 
-    if (!authCheck) {
-      router.push("/admin/login");
+    if (password === ADMIN_PASSWORD) {
+      localStorage.setItem("admin_authenticated", "true");
+      localStorage.setItem("admin_auth_time", Date.now().toString());
+      router.push("/admin");
+    } else {
+      setError("Incorrect password");
     }
-  }, [router]);
-
-  if (isAuthenticated === null) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-center">
-          <div className="w-12 h-12 border-4 border-[#8BBE67] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600">Checking authentication...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!isAuthenticated) {
-    return null;
-  }
+  };
 
   return (
-    <div className="flex h-screen bg-gray-50 mt-20">
-      <AdminSidebar />
-      <main className="flex-1 overflow-auto">
-        <div className="p-4 lg:p-6">{children}</div>
-      </main>
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 px-4">
+      <form
+        onSubmit={handleLogin}
+        className="w-full max-w-sm bg-white rounded-2xl shadow-lg border border-gray-100 p-8"
+      >
+        <div className="flex flex-col items-center mb-6">
+          <div className="w-12 h-12 bg-[#8BBE67]/10 flex items-center justify-center rounded-full mb-3">
+            <FaLock className="text-[#8BBE67]" />
+          </div>
+          <h1 className="text-2xl font-semibold text-gray-900">Admin Login</h1>
+          <p className="text-gray-500 text-sm mt-1">
+            Access your Zarwa Organics dashboard
+          </p>
+        </div>
+
+        <input
+          type="password"
+          placeholder="Enter password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="w-full border border-gray-300 focus:border-[#8BBE67] focus:ring-1 focus:ring-[#8BBE67] rounded-md p-2.5 mb-4 outline-none transition"
+        />
+
+        {error && (
+          <p className="text-red-500 text-sm mb-3 text-center">{error}</p>
+        )}
+
+        <button
+          type="submit"
+          className="w-full bg-[#8BBE67] hover:bg-[#7aad5e] text-white py-2.5 rounded-md font-medium transition"
+        >
+          Login
+        </button>
+
+        <p className="text-xs text-gray-400 text-center mt-4">
+          © {new Date().getFullYear()} Zarwa Organics — Admin Access
+        </p>
+      </form>
     </div>
   );
 }

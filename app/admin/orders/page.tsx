@@ -89,7 +89,7 @@ export default function OrdersPage() {
   };
 
   return (
-    <div className="space-y-6 mt-40">
+    <div className="space-y-6 mt-40 p-6 px-8">
       <div>
         <h1 className="text-2xl lg:text-3xl font-bold text-gray-900">
           Orders Management
