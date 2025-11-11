@@ -15,21 +15,33 @@ const slides = [
     image: "/images/hero-img.png",
     title: "Pure Botanicals. Honest Beauty.",
     subtitle:
-      "Crafted from nature’s most potent herbs and oils, our products celebrate simplicity — free from toxins, full of goodness.",
+      "Crafted from nature's most potent herbs and oils, our products celebrate simplicity — free from toxins, full of goodness.",
   },
   {
     image: "/images/hero-image.png",
     title: "Ancient Wisdom, Modern Care.",
     subtitle:
-      "Infused with ancestral ingredients like neem, aloe, and sandalwood — reimagined for today’s natural skincare routine.",
+      "Infused with ancestral ingredients like neem, aloe, and sandalwood — reimagined for today's natural skincare routine.",
   },
   {
     image: "/images/img3.png",
     title: "Elevate Your Everyday Ritual.",
     subtitle:
-      "Pamper your skin with Zarwa’s organic blends — a sensory journey towards calm, balance, and timeless glow.",
+      "Pamper your skin with Zarwa's organic blends — a sensory journey towards calm, balance, and timeless glow.",
   },
 ];
+
+// ⚡ SPEED CONTROLS - ADJUST THESE VALUES ⚡
+const SPEED_SETTINGS = {
+  // Change this to control how fast slides change (in milliseconds)
+  SLIDE_INTERVAL: 3200, // 5000ms = 5 seconds between slides
+
+  // Image transition speed (in seconds)
+  IMAGE_TRANSITION: 1, // 1.2 seconds for image fade/scale
+
+  // Text animation speed (in seconds)
+  TEXT_ANIMATION: 0.6, // 0.6 seconds for text fade/move
+};
 
 export default function HeroImages() {
   const [index, setIndex] = useState(0);
@@ -38,7 +50,8 @@ export default function HeroImages() {
   useEffect(() => {
     const interval = setInterval(() => {
       setIndex((prev) => (prev + 1) % slides.length);
-    }, 5000);
+    }, SPEED_SETTINGS.SLIDE_INTERVAL); // Using the configurable interval
+
     return () => clearInterval(interval);
   }, []);
 
@@ -61,7 +74,7 @@ export default function HeroImages() {
               scale: i === index ? 1 : 1.05,
             }}
             transition={{
-              duration: 1.2,
+              duration: SPEED_SETTINGS.IMAGE_TRANSITION, // Using configurable duration
               ease: "easeInOut",
             }}
             style={{ willChange: "opacity, transform" }}
@@ -80,11 +93,14 @@ export default function HeroImages() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
+            transition={{
+              duration: SPEED_SETTINGS.TEXT_ANIMATION, // Using configurable duration
+              ease: "easeOut",
+            }}
             className="max-w-3xl"
           >
             {/* ✅ Green text on mobile, white on large screens */}
-            <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold leading-tight text-[#79B27B] lg:text-white  transition-colors duration-300">
+            <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold leading-tight text-[#79B27B] lg:text-white transition-colors duration-300">
               {slides[index].title}
             </h1>
 
@@ -96,7 +112,7 @@ export default function HeroImages() {
             <div className="mt-8 flex flex-wrap justify-center sm:justify-start gap-4">
               <a
                 href="/shop"
-                className="px-8 py-3 rounded-full bg-gradient-to-br from-[#8BBE67] to-[#6F8F58]  text-white text-sm font-medium shadow-md hover:shadow-lg hover:scale-[1.03] transition-transform"
+                className="px-8 py-3 rounded-full bg-gradient-to-br from-[#8BBE67] to-[#6F8F58] text-white text-sm font-medium shadow-md hover:shadow-lg hover:scale-[1.03] transition-transform"
               >
                 Shop Now
               </a>
