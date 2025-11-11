@@ -28,34 +28,7 @@ export async function POST(req: Request) {
       from: process.env.EMAIL_FROM,
       to: "umarfullstackdev@gmail.com",
       subject: `🧾 New Order Received: #${finalOrder.orderId || finalOrder.id}`,
-      //   html: `
-      //     <h2>New Order Received</h2>
-      //     <p><strong>Order ID:</strong> ${finalOrder.orderId || finalOrder.id}</p>
-      //     <p><strong>Customer:</strong> ${finalOrder.user.firstName} ${
-      //     finalOrder.user.lastName
-      //   } (${finalOrder.user.email})</p>
-      //     <p><strong>Phone:</strong> ${finalOrder.user.phone}</p>
-      //     <p><strong>Address:</strong> ${finalOrder.user.address}, ${
-      //     finalOrder.user.city
-      //   }, ${finalOrder.user.zip || ""}</p>
-      //     <p><strong>Payment Method:</strong> ${finalOrder.paymentMethod}</p>
-      //     <p><strong>Total Amount:</strong> Rs. ${finalOrder.total}</p>
-      //     <p><strong>Delivery Charges:</strong> Rs. ${
-      //       finalOrder.deliveryCharges
-      //     }</p>
-      //     <p><strong>Security Deposit:</strong> Rs. ${
-      //       finalOrder.securityDeposit || 0
-      //     }</p>
-      //     <h3>Items:</h3>
-      //     <ul>
-      //       ${finalOrder.items
-      //         .map(
-      //           (item: any) =>
-      //             `<li>${item.name} × ${item.qty} = Rs. ${item.unitPrice}</li>`
-      //         )
-      //         .join("")}
-      //     </ul>
-      //   `,
+
       html: `<!DOCTYPE html>
     <html>
     <head>
@@ -311,9 +284,9 @@ export async function POST(req: Request) {
     });
 
     await transporter.sendMail({
-      from: `"Zarwa Organics" <${process.env.EMAIL_FROM}>`,
+      from: "Zarwa Organics",
       to: customerEmail,
-      subject: `🎉 Your Zarwa Organics Order #${finalOrder.orderId} is Confirmed!`,
+      subject: `🎉 We have received your order!`,
 
       html: `
     <div style="font-family: Arial, sans-serif; background-color: #f8f9fa; padding: 30px;">
@@ -321,7 +294,7 @@ export async function POST(req: Request) {
 
       <!-- LOGO -->
       <div style="text-align: center; margin-bottom: 20px;">
-        <img src="https://zarwaorganics.com/images/logo.png" alt="Zarwa Organics" width="140" style="border-radius: 8px;" />
+        <img src="https://res.cloudinary.com/xcorpion/image/upload/v1762891028/xqhqfjs7aros35pjhogl.png" alt="Zarwa Organics" width="140" style="border-radius: 8px;" />
       </div>
 
       <!-- TITLE -->
