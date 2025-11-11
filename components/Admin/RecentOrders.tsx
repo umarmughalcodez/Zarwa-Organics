@@ -46,7 +46,7 @@ export function RecentOrders() {
 
   if (loading) {
     return (
-      <div className="bg-white rounded-lg border border-gray-200 p-4 lg:p-6">
+      <div className="bg-white rounded-lg border border-gray-200 lg:p-6  p-4 px-8">
         <h2 className="text-lg lg:text-xl font-semibold mb-4">Recent Orders</h2>
         <div className="space-y-3">
           {[...Array(5)].map((_, i) => (
@@ -74,7 +74,7 @@ export function RecentOrders() {
   }
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 p-4 lg:p-6">
+    <div className="bg-white border border-gray-200 p-6 px-8">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
         <h2 className="text-lg lg:text-xl font-semibold">Recent Orders</h2>
         <Link

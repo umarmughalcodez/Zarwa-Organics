@@ -73,7 +73,7 @@ export default function OrdersPage() {
 
   const handleFilterChange = (newFilters: Partial<Filters>) => {
     setFilters((prev) => ({ ...prev, ...newFilters }));
-    setPagination((prev) => ({ ...prev, page: 1 })); // Reset to first page on filter change
+    setPagination((prev) => ({ ...prev, page: 1 }));
   };
 
   const handlePageChange = (newPage: number) => {
@@ -81,7 +81,6 @@ export default function OrdersPage() {
   };
 
   const handleStatusUpdate = (orderId: string, newStatus: string) => {
-    // Optimistic update
     setOrders((prev) =>
       prev.map((order) =>
         order.id === orderId ? { ...order, status: newStatus } : order
@@ -90,36 +89,27 @@ export default function OrdersPage() {
   };
 
   return (
-    <div className="space-y-4 lg:space-y-6 px-4 lg:px-6 py-4 lg:py-6 mt-40">
-      {/* Header Section */}
-      <div className="bg-white rounded-lg border border-gray-200 p-4 lg:p-6">
-        <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
+    <div className="space-y-6 mt-40">
+      <div>
+        <h1 className="text-2xl lg:text-3xl font-bold text-gray-900">
           Orders Management
         </h1>
-        <p className="text-gray-600 text-sm lg:text-base">
-          Manage and track all customer orders
-        </p>
+        <p className="text-gray-600">Manage and track all customer orders</p>
       </div>
 
-      {/* Filters Section */}
-      <div className="bg-white rounded-lg border border-gray-200">
-        <OrdersFilter
-          filters={filters}
-          onFilterChange={handleFilterChange}
-          onRefresh={fetchOrders}
-        />
-      </div>
+      <OrdersFilter
+        filters={filters}
+        onFilterChange={handleFilterChange}
+        onRefresh={fetchOrders}
+      />
 
-      {/* Orders Table Section */}
-      <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-        <OrdersTable
-          orders={orders}
-          loading={loading}
-          pagination={pagination}
-          onPageChange={handlePageChange}
-          onStatusUpdate={handleStatusUpdate}
-        />
-      </div>
+      <OrdersTable
+        orders={orders}
+        loading={loading}
+        pagination={pagination}
+        onPageChange={handlePageChange}
+        onStatusUpdate={handleStatusUpdate}
+      />
     </div>
   );
 }

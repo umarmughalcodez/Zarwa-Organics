@@ -154,9 +154,9 @@ export function OrderStatusUpdate({
 
       {/* Quick Actions */}
       {quickActions.length > 0 && (
-        <div className="space-y-2">
+        <div className="space-y-4">
           <Label>Quick Actions:</Label>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 mt-3">
             {quickActions.map((action) => {
               const statusConfig = statusOptions.find(
                 (s) => s.value === action.status

@@ -1,4 +1,4 @@
-// components/admin/AdminSidebar.tsx
+// components/admin/AdminSidebar.tsx - Just update the logout function
 "use client";
 
 import { useState } from "react";
@@ -12,7 +12,9 @@ import {
   Settings,
   Menu,
   X,
+  LogOut,
 } from "lucide-react";
+import { logoutAdmin } from "@/lib/auth"; // Add this import
 
 const navigation = [
   { name: "Dashboard", href: "/admin", icon: BarChart3 },
@@ -34,12 +36,17 @@ export function AdminSidebar() {
     setIsMobileMenuOpen(false);
   };
 
+  const handleLogout = () => {
+    logoutAdmin();
+    closeMobileMenu();
+  };
+
   return (
     <>
       {/* Mobile Header */}
       <div className="lg:hidden fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
         <div className="flex items-center justify-between p-4">
-          <h1 className="text-xl font-bold text-[#8BBE67]">Zarwa Admin</h1>
+          <h1 className="text-xl font-bold text-[#8BBE67]"> Admin</h1>
           <button
             onClick={toggleMobileMenu}
             className="p-2 rounded-md text-gray-600 hover:bg-gray-100 transition-colors"
@@ -62,7 +69,7 @@ export function AdminSidebar() {
         />
       )}
 
-      {/* Sidebar - Desktop & Mobile */}
+      {/* Sidebar */}
       <div
         className={`
         fixed lg:static inset-y-0 left-0 z-50
@@ -70,6 +77,7 @@ export function AdminSidebar() {
         transform transition-transform duration-300 ease-in-out
         lg:transform-none lg:translate-x-0
         ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"}
+        flex flex-col
       `}
       >
         {/* Desktop Header */}
@@ -89,7 +97,8 @@ export function AdminSidebar() {
           </button>
         </div>
 
-        <nav className="mt-6 lg:mt-0">
+        {/* Navigation */}
+        <nav className="mt-6 lg:mt-0 flex-1">
           {navigation.map((item) => {
             const Icon = item.icon;
             const isActive = pathname === item.href;
@@ -111,16 +120,24 @@ export function AdminSidebar() {
             );
           })}
         </nav>
+
+        {/* Logout Button */}
+        <div className="p-6 border-t border-gray-200">
+          <button
+            onClick={handleLogout}
+            className="flex items-center w-full px-3 py-3 text-sm font-medium text-gray-600 hover:bg-red-50 hover:text-red-600 transition-colors rounded-lg"
+          >
+            <LogOut className="w-5 h-5 mr-3 flex-shrink-0" />
+            <span className="truncate">Logout</span>
+          </button>
+        </div>
       </div>
 
-      {/* Add padding for mobile header */}
+      {/* Mobile padding */}
       <style jsx global>{`
-        .lg\\:mt-0 {
-          margin-top: 0;
-        }
         @media (max-width: 1023px) {
           main {
-            padding-top: 64px; /* Height of mobile header */
+            padding-top: 64px;
           }
         }
       `}</style>

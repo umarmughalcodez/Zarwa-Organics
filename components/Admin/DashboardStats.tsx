@@ -38,7 +38,7 @@ export function DashboardStats() {
 
   if (loading) {
     return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6  p-4 px-8">
         {[...Array(4)].map((_, i) => (
           <div
             key={i}
@@ -84,7 +84,7 @@ export function DashboardStats() {
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6  p-4 px-8">
       {statCards.map((stat) => {
         const Icon = stat.icon;
         return (

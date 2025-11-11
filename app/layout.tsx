@@ -89,7 +89,7 @@ export default function RootLayout({
         {/* <Navbar />
         <Header */}
         <Header />
-        {children}
+        <main>{children}</main>
         <WhatsAppButton />
         <Toaster position="top-center" toastOptions={{ duration: 3000 }} />
 
