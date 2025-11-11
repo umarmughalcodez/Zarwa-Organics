@@ -235,7 +235,7 @@ export default function PaymentPage() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               order: finalOrder,
-              customerEmail: orderData?.user.email,
+              customerEmail: orderData?.user?.email || orderData?.email || "",
               savedOrder: savedOrder,
             }),
           });
