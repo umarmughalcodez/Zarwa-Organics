@@ -515,11 +515,14 @@ function PaymentContent() {
                         Perfect! Screenshot Uploaded Successfully
                       </p>
                     </div>
-                    <img
-                      src={uploadedImageUrl}
-                      alt="Payment confirmation screenshot"
-                      className="mt-2 max-w-xs rounded-lg border-2 border-green-200 mx-auto"
-                    />
+                    <div className="mt-2 flex justify-center">
+                      <img
+                        src={uploadedImageUrl}
+                        alt="Payment confirmation screenshot"
+                        className="max-w-full h-auto rounded-lg border-2 border-green-200"
+                        style={{ maxWidth: "min(100%, 300px)" }}
+                      />
+                    </div>
                     <p className="text-xs text-green-600 text-center mt-2">
                       Ready to confirm your order
                     </p>
