@@ -23,13 +23,25 @@ export async function POST(req: Request) {
       },
     });
 
-    // ✅ Admin email
-    await transporter.sendMail({
-      from: process.env.EMAIL_FROM,
-      to: "umarfullstackdev@gmail.com",
-      subject: `🧾 New Order Received: #${finalOrder.orderId || finalOrder.id}`,
+    try {
+      await transporter.verify();
+      console.log("✅ SMTP connection verified successfully");
+    } catch (verifyError) {
+      console.error("❌ SMTP verification failed:", verifyError);
+      throw new Error("SMTP configuration error: " + verifyError);
+    }
 
-      html: `<!DOCTYPE html>
+    // ✅ Admin email
+
+    try {
+      await transporter.sendMail({
+        from: process.env.EMAIL_FROM,
+        to: "umarfullstackdev@gmail.com",
+        subject: `🧾 New Order Received: #${
+          finalOrder.orderId || finalOrder.id
+        }`,
+
+        html: `<!DOCTYPE html>
     <html>
     <head>
         <style>
@@ -91,8 +103,8 @@ export async function POST(req: Request) {
                     <div class="info-item">
                         <span class="label">Name:</span>
                         <span class="value">${finalOrder.user.firstName} ${
-        finalOrder.user.lastName
-      }</span>
+          finalOrder.user.lastName
+        }</span>
                     </div>
                     <div class="info-item">
                         <span class="label">Email:</span>
@@ -281,14 +293,23 @@ export async function POST(req: Request) {
         </div>
     </body>
     </html>`,
-    });
+      });
+    } catch (adminError) {
+      if (adminError instanceof Error) {
+        console.error("❌ SMTP Relay Error for admin email");
+        // Continue to try customer email anyway
+      } else {
+        throw adminError;
+      }
+    }
 
-    await transporter.sendMail({
-      from: "Zarwa Organics",
-      to: customerEmail,
-      subject: `🎉 We have received your order!`,
+    try {
+      await transporter.sendMail({
+        from: process.env.EMAIL_FROM,
+        to: customerEmail,
+        subject: `🎉 We have received your order!`,
 
-      html: `
+        html: `
     <div style="font-family: Arial, sans-serif; background-color: #f8f9fa; padding: 30px;">
     <div style="max-width: 600px; margin: 0 auto; background: white; border-radius: 10px; padding: 20px;">
 
@@ -352,8 +373,8 @@ export async function POST(req: Request) {
       <p style="font-size: 14px; color: #555;">
         ${finalOrder.user.firstName} ${finalOrder.user.lastName}<br>
         ${finalOrder.user.address}, ${finalOrder.user.city}, ${
-        finalOrder.user.province
-      }<br>
+          finalOrder.user.province
+        }<br>
         ${finalOrder.user.phone}<br>
         ${finalOrder.user.email}
       </p>
@@ -361,8 +382,8 @@ export async function POST(req: Request) {
       <!-- TRACK BUTTON -->
       <div style="text-align: center; margin-top: 20px;">
         <a href="https://zarwaorganics.com/track-order?email=${customerEmail}&id=${
-        finalOrder.orderId
-      }"
+          finalOrder.orderId
+        }"
            style="display: inline-block; background-color: #028a0f; color: white; text-decoration: none;
            padding: 12px 25px; border-radius: 8px; font-weight: bold;">
           Track My Order
@@ -382,7 +403,15 @@ export async function POST(req: Request) {
   </div>
 
 `,
-    });
+      });
+    } catch (customerError) {
+      if (customerError instanceof Error) {
+        console.error("❌ SMTP Relay Error for customer email");
+        // Don't fail the request completely
+      } else {
+        throw customerError;
+      }
+    }
 
     console.log("✅ Emails sent successfully to admin and customer");
     return NextResponse.json({ success: true });

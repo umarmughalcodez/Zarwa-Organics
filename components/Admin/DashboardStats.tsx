@@ -3,6 +3,7 @@
 
 import { useEffect, useState } from "react";
 import { Package, Users, ShoppingCart, DollarSign } from "lucide-react";
+import { LoadingSpinner } from "../ui/loading-spinner";
 
 interface Stats {
   totalOrders: number;
@@ -38,16 +39,8 @@ export function DashboardStats() {
 
   if (loading) {
     return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6  p-4 px-8">
-        {[...Array(4)].map((_, i) => (
-          <div
-            key={i}
-            className="bg-white p-4 lg:p-6 rounded-lg border border-gray-200 animate-pulse"
-          >
-            <div className="h-3 lg:h-4 bg-gray-200 rounded w-1/2 mb-2 lg:mb-3"></div>
-            <div className="h-6 lg:h-8 bg-gray-200 rounded w-3/4"></div>
-          </div>
-        ))}
+      <div>
+        <LoadingSpinner />
       </div>
     );
   }

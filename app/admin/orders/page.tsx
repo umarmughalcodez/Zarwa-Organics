@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { OrdersTable } from "@/components/Admin/OrdersTable";
 import { OrdersFilter } from "@/components/Admin/OrdersFilter";
 import { Order } from "@/lib/types";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
 
 interface Pagination {
   page: number;
@@ -87,6 +88,14 @@ export default function OrdersPage() {
       )
     );
   };
+
+  if (loading) {
+    return (
+      <div>
+        <LoadingSpinner />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6 mt-40 p-6 px-8">

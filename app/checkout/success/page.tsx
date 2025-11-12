@@ -512,7 +512,11 @@ function SuccessContent() {
             <Button
               variant="outline"
               className="mt-3 border-[#8BBE67] text-[#8BBE67] hover:bg-[#8BBE67] hover:text-white transition-colors duration-150"
-              onClick={() => router.push(`/track-order`)}
+              onClick={() =>
+                router.push(
+                  `/track-order?email=${orderDetails.user?.email}&id=${orderId}`
+                )
+              }
             >
               Track Order Now
             </Button>
